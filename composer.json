@@ -1,0 +1,31 @@
+{
+    "name": "findbrok/laravel-personality-insights",
+    "description": "Using IBM Watson Personality Insights Service with Laravel 5",
+    "keywords": ["laravel", "ibm", "watson", "personality", "insights"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Percy Mamedy",
+            "email": "percymamedy@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0",
+        "laravel/framework": "~5.0|~5.1|~5.2",
+        "guzzlehttp/guzzle": "~5.3|~6.0|~6.2"
+    },
+    "require-dev": {
+        "fzaninotto/faker": "~1.4",
+        "phpunit/phpunit": "~4.0",
+        "mockery/mockery": "0.9.*",
+        "orchestra/testbench": "~3.0"
+    },
+    "autoload": {
+        "classmap": [
+            "tests/TestCase.php"
+        ],
+        "psr-4": {
+            "FindBrok\\PersonalityInsights\\" : "src/"
+        }
+    }
+}
