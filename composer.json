@@ -24,6 +24,9 @@
         "classmap": [
             "tests/TestCase.php"
         ],
+        "files": [
+            "src/Support/helpers.php"
+        ],
         "psr-4": {
             "FindBrok\\PersonalityInsights\\" : "src/"
         }
