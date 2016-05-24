@@ -5,8 +5,7 @@ namespace FindBrok\PersonalityInsights;
 use Config;
 use FindBrok\PersonalityInsights\Support\DataCollector\ContentItem;
 use FindBrok\PersonalityInsights\Support\DataCollector\ContentListContainer;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
+use FindBrok\WatsonBridge\Bridge;
 
 /**
  * Class AbstractPersonalityInsights
@@ -30,18 +29,13 @@ abstract class AbstractPersonalityInsights
     protected $credentialsName = null;
 
     /**
-     * Guzzle http client for performing API request
+     * Request Headers
      *
-     * @var \GuzzleHttp\Client
+     * @var array
      */
-    protected $client;
-
-    /**
-     * The request object
-     *
-     * @var \GuzzleHttp\Psr7\Request
-     */
-    protected $request;
+    protected $headers = [
+        'Accept' => 'application/json'
+    ];
 
     /**
      * Create the ContentListContainer and push in items
@@ -53,6 +47,17 @@ abstract class AbstractPersonalityInsights
     {
         //New Up Container
         $this->contentListContainer = (new ContentListContainer($contentItems))->cleanContainer();
+    }
+
+    /**
+     * Get the current Container
+     *
+     * @return ContentListContainer
+     */
+    public function getContainer()
+    {
+        //Return container
+        return $this->contentListContainer;
     }
 
     /**
@@ -81,46 +86,6 @@ abstract class AbstractPersonalityInsights
     }
 
     /**
-     * Creates the http client
-     *
-     * @return void
-     */
-    protected function setClient()
-    {
-        //Create client using API endpoint sets it the th class variable
-        $this->client = new Client([
-            'base_uri'  => config('personality-insights.credentials.'.$this->getCredentialsName().'.url'),
-        ]);
-    }
-
-    /**
-     * Return the Http client instance
-     *
-     * @return \GuzzleHttp\Client
-     */
-    public function getClient()
-    {
-        //Return client
-        return $this->client;
-    }
-
-    /**
-     * Return the authorization for making request
-     *
-     * @return array
-     */
-    protected function getAuth()
-    {
-        //Return access authorization
-        return [
-            'auth' => [
-                config('personality-insights.credentials.'.$this->getCredentialsName().'.username'),
-                config('personality-insights.credentials.'.$this->getCredentialsName().'.password')
-            ]
-        ];
-    }
-
-    /**
      * Return the headers used for making request
      *
      * @return array
@@ -128,12 +93,40 @@ abstract class AbstractPersonalityInsights
     protected function getHeaders()
     {
         //Return headers
-        return [
-            'headers' => [
-                'Accept' => 'application/json',
-                'X-Watson-Learning-Opt-Out' => config('personality-insights.x_watson_learning_opt_out')
-            ]
-        ];
+        return collect($this->headers)->merge([
+            'X-Watson-Learning-Opt-Out' => config('personality-insights.x_watson_learning_opt_out')
+        ])->all();
+    }
+
+    /**
+     * Append Headers to request
+     *
+     * @param array $headers
+     * @return self
+     */
+    public function appendHeaders($headers = [])
+    {
+        //Append headers
+        $this->headers = collect($this->headers)->merge($headers)->all();
+        //Return calling object
+        return $this;
+    }
+
+    /**
+     * Create a new WatsonBridge to handle Requests
+     *
+     * @return Bridge
+     */
+    public function makeBridge()
+    {
+        //Get Username
+        $username = config('personality-insights.credentials.'.$this->getCredentialsName().'.username');
+        //Get Password
+        $password = config('personality-insights.credentials.'.$this->getCredentialsName().'.password');
+        //Get base url
+        $url = config('personality-insights.credentials.'.$this->getCredentialsName().'.url');
+        //Return the bridge
+        return (new Bridge($username, $password, $url))->appendHeaders($this->getHeaders());
     }
 
     /**
@@ -165,5 +158,25 @@ abstract class AbstractPersonalityInsights
         });
         //Return object
         return $this;
+    }
+
+    /**
+     * Checks if cache is on
+     *
+     * @return bool
+     */
+    public function cacheIsOn()
+    {
+        return config('personality-insights.cache_on');
+    }
+
+    /**
+     * Get The cache lifetime in minutes
+     *
+     * @return int
+     */
+    public function cacheLifetime()
+    {
+        return config('personality-insights.cache_expiration');
     }
 }

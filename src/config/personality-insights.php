@@ -47,5 +47,27 @@ return [
     */
 
     'x_watson_learning_opt_out' => false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cache On
+    |--------------------------------------------------------------------------
+    |
+    | Specify if we should cache results from Watson
+    |
+    */
+
+    'cache_on' => env('PERSONALITY_INSIGHTS_CACHE', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cache Expiration (in minutes)
+    |--------------------------------------------------------------------------
+    |
+    | How long should the results stay in cache
+    |
+    */
+
+    'cache_expiration' => 60
     
 ];

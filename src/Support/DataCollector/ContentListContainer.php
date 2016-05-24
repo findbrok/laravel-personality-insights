@@ -3,6 +3,8 @@
 namespace FindBrok\PersonalityInsights\Support\DataCollector;
 
 use Illuminate\Support\Collection;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 
 /**
  * Class ContentListContainer
@@ -35,5 +37,27 @@ class ContentListContainer extends Collection
         });
         //Return Container
         return $this;
+    }
+
+    /**
+     * Unique cache key for this Container
+     *
+     * @return string
+     */
+    public function getCacheKey()
+    {
+        //Return Key
+        return 'PersonalityInsights-'.Uuid::uuid5(Uuid::NAMESPACE_DNS, collect(['contentItems' => $this->toArray()])->toJson())->toString();
+    }
+
+    /**
+     * Get the content of the Container for passing to a request
+     *
+     * @return string
+     */
+    public function getContentsForRequest()
+    {
+        //Return correct format for request
+        return collect(['contentItems' => $this->toArray()])->all();
     }
 }

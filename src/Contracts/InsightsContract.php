@@ -10,9 +10,16 @@ namespace FindBrok\PersonalityInsights\Contracts;
 interface InsightsContract
 {
     /**
-     * Get Insights
+     * Get Full Insights
      *
-     * @return mixed
+     * @return \Illuminate\Support\Collection
      */
-    public function getProfile();
+    public function getFullProfile();
+
+    /**
+     * Return insight Details
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getInsight();
 }

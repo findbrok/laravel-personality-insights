@@ -12,13 +12,15 @@
     "require": {
         "php": ">=5.5.0",
         "laravel/framework": "~5.0|~5.1|~5.2",
-        "guzzlehttp/guzzle": "~5.3|~6.0|~6.2"
+        "findbrok/php-watson-api-bridge": "^1.0",
+        "ramsey/uuid": "^3.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "phpunit/phpunit": "~4.0",
         "mockery/mockery": "0.9.*",
-        "orchestra/testbench": "~3.0"
+        "orchestra/testbench": "~3.0",
+        "guzzlehttp/guzzle": "~5.3|~6.0|~6.2"
     },
     "autoload": {
         "classmap": [
