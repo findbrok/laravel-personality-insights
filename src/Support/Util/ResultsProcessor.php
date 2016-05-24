@@ -1,7 +1,8 @@
 <?php
 
 namespace FindBrok\PersonalityInsights\Support\Util;
-use Illuminate\Support\Collection;
+
+use FindBrok\PersonalityInsights\Support\DataCollector\InsightNode;
 
 /**
  * Class ResultsProcessor
@@ -13,17 +14,17 @@ trait ResultsProcessor
     /**
      * Get the results tree
      *
-     * @return \Illuminate\Support\Collection
+     * @return \FindBrok\PersonalityInsights\Support\DataCollector\InsightNode
      */
     public function getTree()
     {
-        return collect($this->getFullProfile()->get('tree'));
+        return transform_to_node($this->getFullProfile()->get('tree'));
     }
 
     /**
-     * Collect all item in the results tree
+     * Collect all item in the results tree in nodes
      *
-     * @return \Illuminate\Support\Collection
+     * @return \FindBrok\PersonalityInsights\Support\DataCollector\InsightNode
      */
     public function collectTree()
     {
@@ -31,10 +32,10 @@ trait ResultsProcessor
     }
 
     /**
-     * Make all arrays as Collection
+     * Make all arrays as Node
      *
-     * @param \Illuminate\Support\Collection $node
-     * @return \Illuminate\Support\Collection
+     * @param \FindBrok\PersonalityInsights\Support\DataCollector\InsightNode $node
+     * @return \FindBrok\PersonalityInsights\Support\DataCollector\InsightNode
      */
     public function collectAll($node)
     {
@@ -42,7 +43,7 @@ trait ResultsProcessor
             if (! is_array($item)) {
                 return $item;
             } else {
-                return $this->collectAll(collect($item));
+                return $this->collectAll(transform_to_node($item));
             }
         });
     }
@@ -51,7 +52,7 @@ trait ResultsProcessor
      * Check if we have specified ID, in profile
      *
      * @param string $id
-     * @param \Illuminate\Support\Collection $node
+     * @param \FindBrok\PersonalityInsights\Support\DataCollector\InsightNode $node
      * @return bool
      */
     public function has($id = '', $node)
@@ -61,13 +62,13 @@ trait ResultsProcessor
             return false;
         }
         //We have the id
-        if($node->has('id') && $node->get('id') == $id) {
+        if ($node->has('id') && $node->get('id') == $id) {
             //We found it
             return true;
-        } else if($node->has('children') && $node->get('children') instanceof Collection) {
+        } elseif ($node->has('children') && $node->get('children') instanceof InsightNode) {
             //Check in each children
-            foreach($node->get('children') as $childNode) {
-                if($this->has($id, $childNode)) {
+            foreach ($node->get('children') as $childNode) {
+                if ($this->has($id, $childNode)) {
                     //We found it
                     return true;
                 }
@@ -75,6 +76,37 @@ trait ResultsProcessor
         } else {
             //Nothing found
             return false;
+        }
+    }
+
+    /**
+     * Get a node Using its ID
+     *
+     * @param string $id
+     * @param \FindBrok\PersonalityInsights\Support\DataCollector\InsightNode $node
+     * @return \FindBrok\PersonalityInsights\Support\DataCollector\InsightNode|null
+     */
+    public function getNodeById($id = '', $node)
+    {
+        //No node
+        if ($node == null) {
+            return null;
+        }
+        //This is the matching node
+        if ($node->get('id') == $id) {
+            //Return the node
+            return $node;
+        } elseif ($node->has('children') && $node->get('children') instanceof InsightNode) {
+            //Check in each children
+            foreach ($node->get('children') as $childNode) {
+                if ($this->getNodeById($id, $childNode) != null) {
+                    //We found it
+                    return $this->getNodeById($id, $childNode);
+                }
+            }
+        } else {
+            //Nothing found
+            return null;
         }
     }
 }

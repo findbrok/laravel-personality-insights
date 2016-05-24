@@ -19,6 +19,13 @@ class PersonalityInsights extends AbstractPersonalityInsights implements Insight
     use ResultsProcessor;
 
     /**
+     * Full profile
+     *
+     * @var \Illuminate\Support\Collection
+     */
+    protected $profile;
+
+    /**
      * The Cache repository
      *
      * @var \Illuminate\Contracts\Cache\Repository
@@ -40,25 +47,11 @@ class PersonalityInsights extends AbstractPersonalityInsights implements Insight
     }
 
     /**
-     * @param string $id
-     * @return null
-     */
-    public function getInsight($id = '')
-    {
-        //No insight with this ID
-        if(! $this->has($id, $this->collectTree()))  {
-            //We return null
-            return null;
-        }
-
-    }
-
-    /**
-     * Get Full Insights
+     * Get Full Insights From Watson API
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getFullProfile()
+    public function getProfileFromWatson()
     {
         //We have the request in cache and cache is on
         if ($this->cacheIsOn() && $this->cache->has($this->getContainer()->getCacheKey())) {
@@ -68,7 +61,7 @@ class PersonalityInsights extends AbstractPersonalityInsights implements Insight
 
         //Cross the bridge
         $response = $this->makeBridge()->post('v2/profile', $this->getContainer()->getContentsForRequest());
-        //Put the results in the profile props
+        //Decode profile
         $profile = collect(json_decode($response->getBody()->getContents(), true));
 
         //Cache results if cache is on
@@ -76,7 +69,40 @@ class PersonalityInsights extends AbstractPersonalityInsights implements Insight
             $this->cache->put($this->getContainer()->getCacheKey(), $profile, $this->cacheLifetime());
         }
 
-        //Return Results
+        //Return profile
         return $profile;
+    }
+
+    /**
+     * Get Full Insights
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getFullProfile()
+    {
+        //Profile not already loaded
+        if (! $this->hasProfilePreLoaded()) {
+            //Fetch Profile From Watson API
+            $this->profile = $this->getProfileFromWatson();
+        }
+        //Return Results
+        return $this->profile;
+    }
+
+    /**
+     * Get an Insight Data
+     *
+     * @param string $id
+     * @return \FindBrok\PersonalityInsights\Support\DataCollector\InsightNode|null
+     */
+    public function getInsight($id = '')
+    {
+        //No insight with this ID
+        if (! $this->has($id, $this->collectTree())) {
+            //We return null
+            return null;
+        }
+        //Return Node
+        return $this->getNodeById($id, $this->collectTree());
     }
 }

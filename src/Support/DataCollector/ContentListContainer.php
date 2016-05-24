@@ -4,7 +4,6 @@ namespace FindBrok\PersonalityInsights\Support\DataCollector;
 
 use Illuminate\Support\Collection;
 use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 
 /**
  * Class ContentListContainer

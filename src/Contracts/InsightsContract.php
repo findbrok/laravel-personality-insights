@@ -10,6 +10,13 @@ namespace FindBrok\PersonalityInsights\Contracts;
 interface InsightsContract
 {
     /**
+     * Get Full Insights From Watson API
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getProfileFromWatson();
+
+    /**
      * Get Full Insights
      *
      * @return \Illuminate\Support\Collection
