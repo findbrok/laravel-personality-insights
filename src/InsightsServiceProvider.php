@@ -4,6 +4,7 @@ namespace FindBrok\PersonalityInsights;
 
 use FindBrok\PersonalityInsights\Contracts\InsightsContract;
 use FindBrok\PersonalityInsights\Facades\PersonalityInsightsFacade;
+use FindBrok\WatsonBridge\Bridge;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,7 +28,8 @@ class InsightsServiceProvider extends ServiceProvider
      * @var array
      */
     protected $implementations = [
-        InsightsContract::class => PersonalityInsights::class
+        InsightsContract::class => PersonalityInsights::class,
+        'PersonalityInsights' => PersonalityInsights::class
     ];
 
     /**
@@ -49,7 +51,7 @@ class InsightsServiceProvider extends ServiceProvider
         //Publish config file
         $this->publishes([
             $this->configPath => config_path('personality-insights.php')
-        ]);
+        ], 'config');
     }
 
     /**
@@ -79,6 +81,18 @@ class InsightsServiceProvider extends ServiceProvider
             //Bind Interface to class
             $this->app->bind($interface, $class);
         });
+
+        //Bind WatsonBridge that we depend on
+        $this->app->bind('WatsonBridge', function ($app, $args) {
+            //Get Username
+            $username = config('personality-insights.credentials.'.$args['credentialsName'].'.username');
+            //Get Password
+            $password = config('personality-insights.credentials.'.$args['credentialsName'].'.password');
+            //Get base url
+            $url = config('personality-insights.credentials.'.$args['credentialsName'].'.url');
+            //Return bridge
+            return new Bridge($username, $password, $url);
+        });
     }
 
     /**
@@ -91,7 +105,7 @@ class InsightsServiceProvider extends ServiceProvider
         //Register all facades
         collect($this->facades)->each(function ($facadeClass, $alias) {
             //Add Facade
-            $this->app->booting(function () use ($alias,$facadeClass) {
+            $this->app->booting(function () use ($alias, $facadeClass) {
                 //Get loader instance
                 $loader = AliasLoader::getInstance();
                 //Add alias

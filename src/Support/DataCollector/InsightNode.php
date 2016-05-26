@@ -25,15 +25,32 @@ class InsightNode extends Collection
     /**
      * Calculate the percentage for this node
      *
-     * @return string|null
+     * @param int $decimal
+     * @return float|null
      */
-    public function calculatePercentage()
+    public function calculatePercentage($decimal = 1)
     {
         //Percentage not found
         if(! $this->has('percentage')) {
             return null;
         }
         //Calculate percentage and return value
-        return $this->get('percentage') * 100;
+        return (float) number_format($this->get('percentage') * 100, $decimal, '.', '');
+    }
+
+    /**
+     * Calculate the sampling error percentage for this node
+     *
+     * @param int $decimal
+     * @return float|null
+     */
+    public function calculateErrorPercentage($decimal = 1)
+    {
+        //Sampling error not found
+        if(! $this->has('sampling_error')) {
+            return null;
+        }
+        //Calculate percentage and return value
+        return (float) number_format($this->get('sampling_error') * 100, $decimal, '.', '');
     }
 }

@@ -47,8 +47,23 @@ class PersonalityInsights extends AbstractPersonalityInsights implements Insight
     }
 
     /**
+     * Pre-load a profile
+     *
+     * @param $profile
+     * @return self
+     */
+    public function loadProfile($profile)
+    {
+        //Override profile
+        $this->profile = $profile;
+        //Return object
+        return $this;
+    }
+
+    /**
      * Get Full Insights From Watson API
      *
+     * @throws \FindBrok\WatsonBridge\Exceptions\WatsonBridgeException
      * @return \Illuminate\Support\Collection
      */
     public function getProfileFromWatson()
@@ -90,6 +105,20 @@ class PersonalityInsights extends AbstractPersonalityInsights implements Insight
     }
 
     /**
+     * Get a data item from Profile
+     *
+     * @param string $id
+     * @return mixed
+     */
+    public function getFromProfile($id = '')
+    {
+        //Get Profile
+        $profile = $this->getFullProfile();
+        //Return data item
+        return $profile->get($id);
+    }
+
+    /**
      * Get an Insight Data
      *
      * @param string $id
@@ -98,11 +127,30 @@ class PersonalityInsights extends AbstractPersonalityInsights implements Insight
     public function getInsight($id = '')
     {
         //No insight with this ID
-        if (! $this->has($id, $this->collectTree())) {
+        if (! $this->hasInsight($id, $this->collectTree())) {
             //We return null
             return null;
         }
         //Return Node
         return $this->getNodeById($id, $this->collectTree());
+    }
+
+    /**
+     * Cleans the object by erasing all profile and content info
+     *
+     * @return self
+     */
+    public function clean()
+    {
+        //Empty Profile
+        $this->profile = null;
+        //Empty credentials
+        $this->credentialsName = null;
+        //Recreate a new container
+        $this->newUpContainer();
+        //Clean headers
+        $this->cleanHeaders();
+        //Return calling object
+        return $this;
     }
 }

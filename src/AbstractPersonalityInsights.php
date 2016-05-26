@@ -5,7 +5,6 @@ namespace FindBrok\PersonalityInsights;
 use Config;
 use FindBrok\PersonalityInsights\Support\DataCollector\ContentItem;
 use FindBrok\PersonalityInsights\Support\DataCollector\ContentListContainer;
-use FindBrok\WatsonBridge\Bridge;
 
 /**
  * Class AbstractPersonalityInsights
@@ -43,7 +42,7 @@ abstract class AbstractPersonalityInsights
      * @param array $contentItems
      * @return void
      */
-    public function newUpContainer($contentItems = [])
+    protected function newUpContainer($contentItems = [])
     {
         //New Up Container
         $this->contentListContainer = (new ContentListContainer($contentItems))->cleanContainer();
@@ -99,6 +98,17 @@ abstract class AbstractPersonalityInsights
     }
 
     /**
+     * Make headers as they were
+     *
+     * @return void
+     */
+    protected function cleanHeaders()
+    {
+        //Clean up header
+        $this->headers = ['Accept' => 'application/json'];
+    }
+
+    /**
      * Append Headers to request
      *
      * @param array $headers
@@ -119,14 +129,8 @@ abstract class AbstractPersonalityInsights
      */
     public function makeBridge()
     {
-        //Get Username
-        $username = config('personality-insights.credentials.'.$this->getCredentialsName().'.username');
-        //Get Password
-        $password = config('personality-insights.credentials.'.$this->getCredentialsName().'.password');
-        //Get base url
-        $url = config('personality-insights.credentials.'.$this->getCredentialsName().'.url');
         //Return the bridge
-        return (new Bridge($username, $password, $url))->appendHeaders($this->getHeaders());
+        return app('WatsonBridge', ['credentialsName' => $this->getCredentialsName()])->appendHeaders($this->getHeaders());
     }
 
     /**

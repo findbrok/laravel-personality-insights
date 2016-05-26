@@ -12,16 +12,6 @@ use FindBrok\PersonalityInsights\Support\DataCollector\InsightNode;
 trait ResultsProcessor
 {
     /**
-     * Get the results tree
-     *
-     * @return \FindBrok\PersonalityInsights\Support\DataCollector\InsightNode
-     */
-    public function getTree()
-    {
-        return transform_to_node($this->getFullProfile()->get('tree'));
-    }
-
-    /**
      * Collect all item in the results tree in nodes
      *
      * @return \FindBrok\PersonalityInsights\Support\DataCollector\InsightNode
@@ -55,7 +45,7 @@ trait ResultsProcessor
      * @param \FindBrok\PersonalityInsights\Support\DataCollector\InsightNode $node
      * @return bool
      */
-    public function has($id = '', $node)
+    public function hasInsight($id = '', $node)
     {
         //No node
         if ($node == null) {
@@ -68,7 +58,7 @@ trait ResultsProcessor
         } elseif ($node->has('children') && $node->get('children') instanceof InsightNode) {
             //Check in each children
             foreach ($node->get('children') as $childNode) {
-                if ($this->has($id, $childNode)) {
+                if ($this->hasInsight($id, $childNode)) {
                     //We found it
                     return true;
                 }
@@ -108,5 +98,129 @@ trait ResultsProcessor
             //Nothing found
             return null;
         }
+    }
+
+    /**
+     * Get Word count
+     *
+     * @return int|null
+     */
+    public function getWordCount()
+    {
+        return $this->getFromProfile('word_count');
+    }
+
+    /**
+     * Get Source
+     *
+     * @return mixed
+     */
+    public function getSource()
+    {
+        return $this->getFromProfile('source');
+    }
+
+    /**
+     * Get the author
+     *
+     * @return mixed
+     */
+    public function getAuthor()
+    {
+        return $this->getFromProfile('id');
+    }
+
+    /**
+     * Get the language analysed
+     *
+     * @return mixed
+     */
+    public function getLanguage()
+    {
+        return $this->getFromProfile('processed_lang');
+    }
+
+    /**
+     * Get the results tree
+     *
+     * @return \FindBrok\PersonalityInsights\Support\DataCollector\InsightNode
+     */
+    public function getTree()
+    {
+        return transform_to_node($this->getFromProfile('tree'));
+    }
+
+    /**
+     * Get the Message word count if exists
+     *
+     * @return string
+     */
+    public function getWordCountMessage()
+    {
+        return $this->getFromProfile('word_count_message');
+    }
+
+    /**
+     * Get the analysis level
+     *
+     * @return string
+     */
+    public function analysisLevel()
+    {
+        //Get Word count
+        $wordCount = $this->getWordCount();
+        //Very Strong
+        if($wordCount >= 6000) {
+            return 'Very Strong';
+        } elseif ($wordCount < 6000 && $wordCount >= 3500) {
+            //Strong analysis
+            return 'Strong';
+        } elseif ($wordCount < 3500 && $wordCount >= 100) {
+            //Weak analysis
+            return 'Weak';
+        } elseif ($wordCount == 100) {
+            //Very weak
+            return 'Very Weak';
+        }
+    }
+
+    /**
+     * Check if analysis is very strong
+     *
+     * @return bool
+     */
+    public function isAnalysisVeryStrong()
+    {
+        return $this->analysisLevel() == 'Very Strong';
+    }
+
+    /**
+     * Check if analysis is strong
+     *
+     * @return bool
+     */
+    public function isAnalysisStrong()
+    {
+        return $this->isAnalysisVeryStrong() || $this->analysisLevel() == 'Strong';
+    }
+
+    /**
+     * Check if analysis is weak
+     *
+     * @return bool
+     */
+    public function isAnalysisWeak()
+    {
+        return $this->isAnalysisVeryWeak() || $this->analysisLevel() == 'Weak';
+    }
+
+    /**
+     * Check if analysis is very weak
+     *
+     * @return bool
+     */
+    public function isAnalysisVeryWeak()
+    {
+        return $this->analysisLevel() == 'Very Weak';
     }
 }
