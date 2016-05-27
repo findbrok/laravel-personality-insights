@@ -45,8 +45,18 @@ class TestCase extends TestBenchTestCase
         $this->contentItems = json_decode(file_get_contents(__DIR__.'/Mocks/content-items.json'), true)['contentItems'];
         //Mock Response Body
         $this->jsonResponse = file_get_contents(__DIR__.'/Mocks/profile-response.json');
-        //Bind Personality Insight Class
-        $this->app->bind('PersonalityInsights', PersonalityInsights::class);
+    }
+
+    /**
+     * Get package providers.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array
+     */
+    protected function getPackageProviders($app)
+    {
+        return ['FindBrok\PersonalityInsights\InsightsServiceProvider'];
     }
 
     /**

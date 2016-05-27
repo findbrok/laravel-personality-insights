@@ -16,13 +16,6 @@ use Illuminate\Support\ServiceProvider;
 class InsightsServiceProvider extends ServiceProvider
 {
     /**
-     * Define the config path we are using for the Package
-     *
-     * @var string
-     */
-    protected $configPath = __DIR__.'/config/personality-insights.php';
-
-    /**
      * Define the implementations contracts maps to which concrete classes
      *
      * @var array
@@ -50,7 +43,7 @@ class InsightsServiceProvider extends ServiceProvider
     {
         //Publish config file
         $this->publishes([
-            $this->configPath => config_path('personality-insights.php')
+            __DIR__.'/config/personality-insights.php' => config_path('personality-insights.php')
         ], 'config');
     }
 
@@ -62,7 +55,7 @@ class InsightsServiceProvider extends ServiceProvider
     public function register()
     {
         //Merge Config File
-        $this->mergeConfigFrom($this->configPath, 'personality-insights');
+        $this->mergeConfigFrom(__DIR__.'/config/personality-insights.php', 'personality-insights');
         //Register Bindings
         $this->registerBindings();
         //Register Facades
