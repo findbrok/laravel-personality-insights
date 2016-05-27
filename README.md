@@ -45,4 +45,5 @@ Read the [docs](https://github.com/findbrok/laravel-personality-insights/wiki)
 [![Percy Mamedy](https://img.shields.io/badge/Author-Percy%20Mamedy-orange.svg)](https://twitter.com/PercyMamedy)
 
 Twitter: [@PercyMamedy](https://twitter.com/PercyMamedy)
+<br/>
 GitHub: [percymamedy](https://github.com/percymamedy)
