@@ -6,7 +6,15 @@
 [![Latest Unstable Version](https://poser.pugx.org/findbrok/laravel-personality-insights/v/unstable)](https://packagist.org/packages/findbrok/laravel-personality-insights) 
 [![License](https://poser.pugx.org/findbrok/laravel-personality-insights/license)](https://packagist.org/packages/findbrok/laravel-personality-insights)
 
-A simple Laravel 5 wrapper around [IBM Watson Personality Insights API](http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/personality-insights.html) 
+A simple Laravel 5 wrapper around [IBM Watson Personality Insights API](http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/personality-insights.html)
+
+## How it works
+
+Personality Insights extracts and analyzes a spectrum of personality attributes to help discover actionable insights about people and entities, and in turn guides end users to highly personalized interactions. The service outputs personality characteristics that are divided into three dimensions: the Big 5, Values, and Needs. While some services are contextually specific depending on the domain model and content, Personality Insights only requires a minimum of 3500+ words of any text.
+
+## Intended Use
+
+The Personality Insights service lends itself to an almost limitless number of potential applications. Businesses can use the detailed personality portraits of individual customers for finer-grained customer segmentation and better-quality lead generation. This data enables them to design marketing, provide product recommendations, and deliver customer care that is more personal and relevant. Personality Insights can also be used to help recruiters or university admissions match candidates to companies or universities.
 
 ## Installation
 
