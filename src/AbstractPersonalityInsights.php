@@ -130,7 +130,7 @@ abstract class AbstractPersonalityInsights
     public function makeBridge()
     {
         //Return the bridge
-        return app('WatsonBridge', ['credentialsName' => $this->getCredentialsName()])->appendHeaders($this->getHeaders());
+        return app('PersonalityInsightsBridge', ['credentialsName' => $this->getCredentialsName()])->appendHeaders($this->getHeaders());
     }
 
     /**

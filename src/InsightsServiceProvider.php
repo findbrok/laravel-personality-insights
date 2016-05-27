@@ -82,8 +82,8 @@ class InsightsServiceProvider extends ServiceProvider
             $this->app->bind($interface, $class);
         });
 
-        //Bind WatsonBridge that we depend on
-        $this->app->bind('WatsonBridge', function ($app, $args) {
+        //Bind WatsonBridge for Personality insights that we depend on
+        $this->app->bind('PersonalityInsightsBridge', function ($app, $args) {
             //Get Username
             $username = config('personality-insights.credentials.'.$args['credentialsName'].'.username');
             //Get Password

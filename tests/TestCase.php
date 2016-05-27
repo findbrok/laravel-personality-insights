@@ -59,7 +59,7 @@ class TestCase extends TestBenchTestCase
         //Set return value of post method
         $this->bridge->method('post')->withAnyParameters()->willReturn(new Response(200, [], $this->jsonResponse));
         //Override Bridge in IOC
-        $this->app->instance('WatsonBridge', $this->bridge);
+        $this->app->instance('PersonalityInsightsBridge', $this->bridge);
 
         //Get Full Profile
         $profile = app()->make('PersonalityInsights')->addContentItems($this->contentItems)->getFullProfile();
@@ -77,7 +77,7 @@ class TestCase extends TestBenchTestCase
         //Set return value of post method
         $this->bridge->method('post')->withAnyParameters()->willReturn(new Response(200, [], $this->jsonResponse));
         //Override Bridge in IOC
-        $this->app->instance('WatsonBridge', $this->bridge);
+        $this->app->instance('PersonalityInsightsBridge', $this->bridge);
 
         //Get Insights
         $insights = app()->make('PersonalityInsights')->addContentItems($this->contentItems);
@@ -96,7 +96,7 @@ class TestCase extends TestBenchTestCase
         //Set return value of post method
         $this->bridge->method('post')->withAnyParameters()->willReturn(new Response(200, [], $this->jsonResponse));
         //Override Bridge in IOC
-        $this->app->instance('WatsonBridge', $this->bridge);
+        $this->app->instance('PersonalityInsightsBridge', $this->bridge);
 
         //Get Intellect
         $intellect = app()->make('PersonalityInsights')->addContentItems($this->contentItems)->getInsight('Intellect');
@@ -114,7 +114,8 @@ class TestCase extends TestBenchTestCase
         //Set return value of post method
         $this->bridge->method('post')->withAnyParameters()->willReturn(new Response(200, [], $this->jsonResponse));
         //Override Bridge in IOC
-        $this->app->instance('WatsonBridge', $this->bridge);
+        $this->app->instance('PersonalityInsightsBridge', $this->bridge);
+
         //Analysis is strong
         $this->assertTrue(app()->make('PersonalityInsights')->addContentItems($this->contentItems)->isAnalysisStrong());
     }
@@ -130,7 +131,8 @@ class TestCase extends TestBenchTestCase
         //Set return value of post method
         $this->bridge->method('post')->withAnyParameters()->willReturn(new Response(200, [], $this->jsonResponse));
         //Override Bridge in IOC
-        $this->app->instance('WatsonBridge', $this->bridge);
+        $this->app->instance('PersonalityInsightsBridge', $this->bridge);
+
         //Add content and exception is thrown here
         app()->make('PersonalityInsights')->addContentItems([
             'id' => 'foo',
