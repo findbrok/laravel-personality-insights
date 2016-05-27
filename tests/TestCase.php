@@ -1,6 +1,5 @@
 <?php
 
-use FindBrok\PersonalityInsights\PersonalityInsights;
 use GuzzleHttp\Psr7\Response;
 use Orchestra\Testbench\TestCase as TestBenchTestCase;
 
