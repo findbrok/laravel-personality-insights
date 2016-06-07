@@ -36,7 +36,7 @@ class PersonalityInsights extends AbstractPersonalityInsights implements Insight
      * @param array $contentItems
      * @param Cache $cache
      */
-    public function __construct($contentItems, Cache $cache)
+    public function __construct(array $contentItems = [], Cache $cache)
     {
         //New Up a container
         $this->newUpContainer($contentItems);
