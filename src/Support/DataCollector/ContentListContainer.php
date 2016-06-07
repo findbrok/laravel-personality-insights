@@ -30,7 +30,7 @@ class ContentListContainer extends Collection
     {
         $this->reject(function ($item) {
             //Remove all which are not content item
-            return !($item instanceof ContentItem);
+            return ! ($item instanceof ContentItem);
         });
         //Return Container
         return $this;

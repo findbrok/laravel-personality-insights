@@ -194,6 +194,6 @@ abstract class AbstractPersonalityInsights
      */
     public function hasProfilePreLoaded()
     {
-        return property_exists($this, 'profile') && !is_null($this->profile);
+        return property_exists($this, 'profile') && ! is_null($this->profile);
     }
 }

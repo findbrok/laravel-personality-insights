@@ -29,7 +29,7 @@ trait ResultsProcessor
     public function collectAll(InsightNode $node)
     {
         return $node->transform(function ($item) {
-            if (!is_array($item)) {
+            if (! is_array($item)) {
                 return $item;
             } else {
                 return $this->collectAll(transform_to_node($item));
@@ -82,7 +82,7 @@ trait ResultsProcessor
         } elseif ($node->has('children') && $node->get('children') instanceof InsightNode) {
             //Check in each children
             foreach ($node->get('children') as $childNode) {
-                if (!is_null($this->getNodeById($id, $childNode))) {
+                if (! is_null($this->getNodeById($id, $childNode))) {
                     //We found it
                     return $this->getNodeById($id, $childNode);
                 }

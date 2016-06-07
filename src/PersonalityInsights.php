@@ -96,7 +96,7 @@ class PersonalityInsights extends AbstractPersonalityInsights implements Insight
     public function getFullProfile()
     {
         //Profile not already loaded
-        if (!$this->hasProfilePreLoaded()) {
+        if (! $this->hasProfilePreLoaded()) {
             //Fetch Profile From Watson API
             $this->profile = $this->getProfileFromWatson();
         }
@@ -129,7 +129,7 @@ class PersonalityInsights extends AbstractPersonalityInsights implements Insight
     public function getInsight($id = '')
     {
         //No insight with this ID
-        if (!$this->hasInsight($id, $this->collectTree())) {
+        if (! $this->hasInsight($id, $this->collectTree())) {
             //We return null
             return;
         }
