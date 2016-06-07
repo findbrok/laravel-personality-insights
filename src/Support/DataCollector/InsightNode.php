@@ -30,7 +30,7 @@ class InsightNode extends Collection
     public function calculatePercentage($decimal = 1)
     {
         //Percentage not found
-        if (!$this->has('percentage')) {
+        if (! $this->has('percentage')) {
             return;
         }
         //Calculate percentage and return value
@@ -47,7 +47,7 @@ class InsightNode extends Collection
     public function calculateErrorPercentage($decimal = 1)
     {
         //Sampling error not found
-        if (!$this->has('sampling_error')) {
+        if (! $this->has('sampling_error')) {
             return;
         }
         //Calculate percentage and return value
