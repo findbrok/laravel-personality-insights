@@ -13,9 +13,9 @@ class PersonalityInsightsFacade extends Facade
     /**
      * Get the registered name of the component.
      *
-     * @return string
-     *
      * @throws \RuntimeException
+     *
+     * @return string
      */
     public static function getFacadeAccessor()
     {

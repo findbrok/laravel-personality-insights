@@ -20,7 +20,7 @@ class InsightsServiceProvider extends ServiceProvider
      */
     protected $implementations = [
         InsightsContract::class => PersonalityInsights::class,
-        'PersonalityInsights'   => PersonalityInsights::class
+        'PersonalityInsights'   => PersonalityInsights::class,
     ];
 
     /**
@@ -29,7 +29,7 @@ class InsightsServiceProvider extends ServiceProvider
      * @var array
      */
     protected $facades = [
-        'PersonalityInsights' => PersonalityInsightsFacade::class
+        'PersonalityInsights' => PersonalityInsightsFacade::class,
     ];
 
     /**
@@ -41,7 +41,7 @@ class InsightsServiceProvider extends ServiceProvider
     {
         //Publish config file
         $this->publishes([
-            __DIR__.'/config/personality-insights.php' => config_path('personality-insights.php')
+            __DIR__.'/config/personality-insights.php' => config_path('personality-insights.php'),
         ], 'config');
     }
 
@@ -61,7 +61,7 @@ class InsightsServiceProvider extends ServiceProvider
     }
 
     /**
-     * Registers all Interface to Class bindings
+     * Registers all Interface to Class bindings.
      *
      * @return void
      */
@@ -87,7 +87,7 @@ class InsightsServiceProvider extends ServiceProvider
     }
 
     /**
-     * Registers all facades
+     * Registers all facades.
      *
      * @return void
      */

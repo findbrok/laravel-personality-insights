@@ -11,7 +11,7 @@ use Illuminate\Contracts\Cache\Repository as Cache;
  */
 class PersonalityInsights extends AbstractPersonalityInsights implements InsightsContract
 {
-    /**
+    /*
      * Traits.
      */
     use ResultsProcessor;
@@ -36,7 +36,7 @@ class PersonalityInsights extends AbstractPersonalityInsights implements Insight
      * @param array $contentItems
      * @param Cache $cache
      */
-    public function __construct($contentItems = [], Cache $cache)
+    public function __construct($contentItems, Cache $cache)
     {
         //New Up a container
         $this->newUpContainer($contentItems);
@@ -96,7 +96,7 @@ class PersonalityInsights extends AbstractPersonalityInsights implements Insight
     public function getFullProfile()
     {
         //Profile not already loaded
-        if (! $this->hasProfilePreLoaded()) {
+        if (!$this->hasProfilePreLoaded()) {
             //Fetch Profile From Watson API
             $this->profile = $this->getProfileFromWatson();
         }
@@ -129,9 +129,9 @@ class PersonalityInsights extends AbstractPersonalityInsights implements Insight
     public function getInsight($id = '')
     {
         //No insight with this ID
-        if (! $this->hasInsight($id, $this->collectTree())) {
+        if (!$this->hasInsight($id, $this->collectTree())) {
             //We return null
-            return null;
+            return;
         }
         //Return Node
         return $this->getNodeById($id, $this->collectTree());

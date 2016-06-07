@@ -29,7 +29,7 @@ trait ResultsProcessor
     public function collectAll(InsightNode $node)
     {
         return $node->transform(function ($item) {
-            if (! is_array($item)) {
+            if (!is_array($item)) {
                 return $item;
             } else {
                 return $this->collectAll(transform_to_node($item));
@@ -40,12 +40,12 @@ trait ResultsProcessor
     /**
      * Check if we have specified ID, in profile.
      *
-     * @param string $id
+     * @param string      $id
      * @param InsightNode $node
      *
      * @return bool
      */
-    public function hasInsight($id = '', InsightNode $node)
+    public function hasInsight($id, InsightNode $node)
     {
         //We have the id
         if ($node->has('id') && $node->get('id') == $id) {
@@ -68,12 +68,12 @@ trait ResultsProcessor
     /**
      * Get a node Using its ID.
      *
-     * @param string $id
+     * @param string      $id
      * @param InsightNode $node
      *
      * @return InsightNode|null
      */
-    public function getNodeById($id = '', InsightNode $node)
+    public function getNodeById($id, InsightNode $node)
     {
         //This is the matching node
         if ($node->get('id') == $id) {
@@ -89,7 +89,7 @@ trait ResultsProcessor
             }
         } else {
             //Nothing found
-            return null;
+            return;
         }
     }
 
