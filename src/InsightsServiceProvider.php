@@ -2,31 +2,29 @@
 
 namespace FindBrok\PersonalityInsights;
 
-use FindBrok\PersonalityInsights\Contracts\InsightsContract;
+use FindBrok\PersonalityInsights\Contracts\InsightsInterface as InsightsContract;
 use FindBrok\PersonalityInsights\Facades\PersonalityInsightsFacade;
 use FindBrok\WatsonBridge\Bridge;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * Class InsightsServiceProvider
- *
- * @package FindBrok\PersonalityInsights
+ * Class InsightsServiceProvider.
  */
 class InsightsServiceProvider extends ServiceProvider
 {
     /**
-     * Define the implementations contracts maps to which concrete classes
+     * Define the implementations contracts maps to which concrete classes.
      *
      * @var array
      */
     protected $implementations = [
         InsightsContract::class => PersonalityInsights::class,
-        'PersonalityInsights' => PersonalityInsights::class
+        'PersonalityInsights'   => PersonalityInsights::class
     ];
 
     /**
-     * Define all Facades here
+     * Define all Facades here.
      *
      * @var array
      */

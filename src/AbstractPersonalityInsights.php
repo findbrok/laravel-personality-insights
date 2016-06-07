@@ -7,28 +7,26 @@ use FindBrok\PersonalityInsights\Support\DataCollector\ContentItem;
 use FindBrok\PersonalityInsights\Support\DataCollector\ContentListContainer;
 
 /**
- * Class AbstractPersonalityInsights
- *
- * @package FindBrok\PersonalityInsights
+ * Class AbstractPersonalityInsights.
  */
 abstract class AbstractPersonalityInsights
 {
     /**
-     * The ContentListContainer
+     * The ContentListContainer.
      *
      * @var ContentListContainer
      */
     protected $contentListContainer = null;
 
     /**
-     * Get then name of the credentials to use
+     * Get then name of the credentials to use.
      *
      * @var string
      */
     protected $credentialsName = null;
 
     /**
-     * Request Headers
+     * Request Headers.
      *
      * @var array
      */
@@ -37,9 +35,10 @@ abstract class AbstractPersonalityInsights
     ];
 
     /**
-     * Create the ContentListContainer and push in items
+     * Create the ContentListContainer and push in items.
      *
      * @param array $contentItems
+     *
      * @return void
      */
     protected function newUpContainer($contentItems = [])
@@ -49,7 +48,7 @@ abstract class AbstractPersonalityInsights
     }
 
     /**
-     * Get the current Container
+     * Get the current Container.
      *
      * @return ContentListContainer
      */
@@ -60,9 +59,10 @@ abstract class AbstractPersonalityInsights
     }
 
     /**
-     * Specify the credentials name to use
+     * Specify the credentials name to use.
      *
      * @param string $name
+     *
      * @return self
      */
     public function usingCredentials($name = null)
@@ -74,7 +74,7 @@ abstract class AbstractPersonalityInsights
     }
 
     /**
-     * Return the Credential Name to use
+     * Return the Credential Name to use.
      *
      * @return string
      */
@@ -85,7 +85,7 @@ abstract class AbstractPersonalityInsights
     }
 
     /**
-     * Return the headers used for making request
+     * Return the headers used for making request.
      *
      * @return array
      */
@@ -98,7 +98,7 @@ abstract class AbstractPersonalityInsights
     }
 
     /**
-     * Make headers as they were
+     * Make headers as they were.
      *
      * @return void
      */
@@ -109,9 +109,10 @@ abstract class AbstractPersonalityInsights
     }
 
     /**
-     * Append Headers to request
+     * Append Headers to request.
      *
      * @param array $headers
+     *
      * @return self
      */
     public function appendHeaders($headers = [])
@@ -123,7 +124,7 @@ abstract class AbstractPersonalityInsights
     }
 
     /**
-     * Create a new WatsonBridge to handle Requests
+     * Create a new WatsonBridge to handle Requests.
      *
      * @return Bridge
      */
@@ -134,9 +135,10 @@ abstract class AbstractPersonalityInsights
     }
 
     /**
-     * Add a ContentItem to ContentListContainer
+     * Add a ContentItem to ContentListContainer.
      *
-     * @param array|\FindBrok\PersonalityInsights\Support\DataCollector\ContentItem $items
+     * @param array|ContentItem $items
+     *
      * @return self
      */
     public function addSingleContentItem($items = [])
@@ -148,9 +150,10 @@ abstract class AbstractPersonalityInsights
     }
 
     /**
-     * Add ContentItems to the Container
+     * Add ContentItems to the Container.
      *
      * @param array $items
+     *
      * @return self
      */
     public function addContentItems($items = [])
@@ -165,7 +168,7 @@ abstract class AbstractPersonalityInsights
     }
 
     /**
-     * Checks if cache is on
+     * Checks if cache is on.
      *
      * @return bool
      */
@@ -175,7 +178,7 @@ abstract class AbstractPersonalityInsights
     }
 
     /**
-     * Get The cache lifetime in minutes
+     * Get The cache lifetime in minutes.
      *
      * @return int
      */
@@ -185,7 +188,7 @@ abstract class AbstractPersonalityInsights
     }
 
     /**
-     * Checks if profile data is already loaded in profile prop
+     * Checks if profile data is already loaded in profile prop.
      *
      * @return bool
      */

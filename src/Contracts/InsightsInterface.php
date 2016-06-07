@@ -3,52 +3,53 @@
 namespace FindBrok\PersonalityInsights\Contracts;
 
 /**
- * Interface InsightsContract
- *
- * @package FindBrok\PersonalityInsights\Contracts
+ * Interface InsightsInterface.
  */
-interface InsightsContract
+interface InsightsInterface
 {
     /**
-     * Pre-load a profile
+     * Pre-load a profile.
      *
      * @param \Illuminate\Support\Collection $profile
+     *
      * @return self
      */
     public function loadProfile($profile);
 
     /**
-     * Get Full Insights From Watson API
+     * Get Full Insights From Watson API.
      *
      * @return \Illuminate\Support\Collection
      */
     public function getProfileFromWatson();
 
     /**
-     * Get Full Insights
+     * Get Full Insights.
      *
      * @return \Illuminate\Support\Collection
      */
     public function getFullProfile();
 
     /**
-     * Get a data item from Profile
+     * Get a data item from Profile.
      *
      * @param string $id
+     *
      * @return mixed
      */
     public function getFromProfile($id = '');
 
     /**
-     * Get an Insight Data
+     * Get an Insight Data.
      *
      * @param string $id
+     *
      * @return \FindBrok\PersonalityInsights\Support\DataCollector\InsightNode|null
      */
     public function getInsight($id = '');
 
     /**
-     * Cleans the object by erasing all profile and content info
+     * Cleans the object by erasing all profile and content info.
      *
      * @return self
      */

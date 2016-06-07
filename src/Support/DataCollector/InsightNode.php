@@ -5,9 +5,7 @@ namespace FindBrok\PersonalityInsights\Support\DataCollector;
 use Illuminate\Support\Collection;
 
 /**
- * Class InsightNode
- *
- * @package FindBrok\PersonalityInsights\Support\DataCollector
+ * Class InsightNode.
  */
 class InsightNode extends Collection
 {
@@ -23,9 +21,10 @@ class InsightNode extends Collection
     }
 
     /**
-     * Calculate the percentage for this node
+     * Calculate the percentage for this node.
      *
      * @param int $decimal
+     *
      * @return float|null
      */
     public function calculatePercentage($decimal = 1)
@@ -39,9 +38,10 @@ class InsightNode extends Collection
     }
 
     /**
-     * Calculate the sampling error percentage for this node
+     * Calculate the sampling error percentage for this node.
      *
      * @param int $decimal
+     *
      * @return float|null
      */
     public function calculateErrorPercentage($decimal = 1)

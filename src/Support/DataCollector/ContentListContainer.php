@@ -6,9 +6,7 @@ use Illuminate\Support\Collection;
 use Ramsey\Uuid\Uuid;
 
 /**
- * Class ContentListContainer
- *
- * @package FindBrok\PersonalityInsights\Support\DataCollector
+ * Class ContentListContainer.
  */
 class ContentListContainer extends Collection
 {
@@ -24,7 +22,7 @@ class ContentListContainer extends Collection
     }
 
     /**
-     * Remove all invalid contents in the ContentListContainer
+     * Remove all invalid contents in the ContentListContainer.
      *
      * @return void
      */
@@ -39,7 +37,7 @@ class ContentListContainer extends Collection
     }
 
     /**
-     * Unique cache key for this Container
+     * Unique cache key for this Container.
      *
      * @return string
      */
@@ -50,7 +48,7 @@ class ContentListContainer extends Collection
     }
 
     /**
-     * Get the content of the Container for passing to a request
+     * Get the content of the Container for passing to a request.
      *
      * @return string
      */

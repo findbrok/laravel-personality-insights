@@ -2,13 +2,11 @@
 
 namespace FindBrok\PersonalityInsights\Facades;
 
-use FindBrok\PersonalityInsights\Contracts\InsightsContract;
+use FindBrok\PersonalityInsights\Contracts\InsightsInterface as InsightsContract;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * Class PersonalityInsightsFacade
- *
- * @package FindBrok\PersonalityInsights\Facades
+ * Class PersonalityInsightsFacade.
  */
 class PersonalityInsightsFacade extends Facade
 {

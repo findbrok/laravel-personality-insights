@@ -2,38 +2,36 @@
 
 namespace FindBrok\PersonalityInsights;
 
-use FindBrok\PersonalityInsights\Contracts\InsightsContract;
+use FindBrok\PersonalityInsights\Contracts\InsightsInterface as InsightsContract;
 use FindBrok\PersonalityInsights\Support\Util\ResultsProcessor;
 use Illuminate\Contracts\Cache\Repository as Cache;
 
 /**
- * Class PersonalityInsights
- *
- * @package FindBrok\PersonalityInsights
+ * Class PersonalityInsights.
  */
 class PersonalityInsights extends AbstractPersonalityInsights implements InsightsContract
 {
     /**
-     * Traits
+     * Traits.
      */
     use ResultsProcessor;
 
     /**
-     * Full profile
+     * Full profile.
      *
      * @var \Illuminate\Support\Collection
      */
     protected $profile;
 
     /**
-     * The Cache repository
+     * The Cache repository.
      *
      * @var \Illuminate\Contracts\Cache\Repository
      */
     protected $cache;
 
     /**
-     * Create a new PersonalityInsights
+     * Create a new PersonalityInsights.
      *
      * @param array $contentItems
      * @param Cache $cache
@@ -47,9 +45,10 @@ class PersonalityInsights extends AbstractPersonalityInsights implements Insight
     }
 
     /**
-     * Pre-load a profile
+     * Pre-load a profile.
      *
      * @param $profile
+     *
      * @return self
      */
     public function loadProfile($profile)
@@ -61,9 +60,10 @@ class PersonalityInsights extends AbstractPersonalityInsights implements Insight
     }
 
     /**
-     * Get Full Insights From Watson API
+     * Get Full Insights From Watson API.
      *
      * @throws \FindBrok\WatsonBridge\Exceptions\WatsonBridgeException
+     *
      * @return \Illuminate\Support\Collection
      */
     public function getProfileFromWatson()
@@ -89,7 +89,7 @@ class PersonalityInsights extends AbstractPersonalityInsights implements Insight
     }
 
     /**
-     * Get Full Insights
+     * Get Full Insights.
      *
      * @return \Illuminate\Support\Collection
      */
@@ -105,9 +105,10 @@ class PersonalityInsights extends AbstractPersonalityInsights implements Insight
     }
 
     /**
-     * Get a data item from Profile
+     * Get a data item from Profile.
      *
      * @param string $id
+     *
      * @return mixed
      */
     public function getFromProfile($id = '')
@@ -119,9 +120,10 @@ class PersonalityInsights extends AbstractPersonalityInsights implements Insight
     }
 
     /**
-     * Get an Insight Data
+     * Get an Insight Data.
      *
      * @param string $id
+     *
      * @return \FindBrok\PersonalityInsights\Support\DataCollector\InsightNode|null
      */
     public function getInsight($id = '')
@@ -136,7 +138,7 @@ class PersonalityInsights extends AbstractPersonalityInsights implements Insight
     }
 
     /**
-     * Cleans the object by erasing all profile and content info
+     * Cleans the object by erasing all profile and content info.
      *
      * @return self
      */

@@ -5,16 +5,14 @@ namespace FindBrok\PersonalityInsights\Support\Util;
 use FindBrok\PersonalityInsights\Support\DataCollector\InsightNode;
 
 /**
- * Class ResultsProcessor
- *
- * @package FindBrok\PersonalityInsights\Support\Util
+ * Class ResultsProcessor.
  */
 trait ResultsProcessor
 {
     /**
-     * Collect all item in the results tree in nodes
+     * Collect all item in the results tree in nodes.
      *
-     * @return \FindBrok\PersonalityInsights\Support\DataCollector\InsightNode
+     * @return InsightNode
      */
     public function collectTree()
     {
@@ -22,12 +20,13 @@ trait ResultsProcessor
     }
 
     /**
-     * Make all arrays as Node
+     * Make all arrays as Node.
      *
-     * @param \FindBrok\PersonalityInsights\Support\DataCollector\InsightNode $node
-     * @return \FindBrok\PersonalityInsights\Support\DataCollector\InsightNode
+     * @param InsightNode $node
+     *
+     * @return InsightNode
      */
-    public function collectAll($node)
+    public function collectAll(InsightNode $node)
     {
         return $node->transform(function ($item) {
             if (! is_array($item)) {
@@ -39,18 +38,15 @@ trait ResultsProcessor
     }
 
     /**
-     * Check if we have specified ID, in profile
+     * Check if we have specified ID, in profile.
      *
      * @param string $id
-     * @param \FindBrok\PersonalityInsights\Support\DataCollector\InsightNode $node
+     * @param InsightNode $node
+     *
      * @return bool
      */
-    public function hasInsight($id = '', $node)
+    public function hasInsight($id = '', InsightNode $node)
     {
-        //No node
-        if ($node == null) {
-            return false;
-        }
         //We have the id
         if ($node->has('id') && $node->get('id') == $id) {
             //We found it
@@ -70,18 +66,15 @@ trait ResultsProcessor
     }
 
     /**
-     * Get a node Using its ID
+     * Get a node Using its ID.
      *
      * @param string $id
-     * @param \FindBrok\PersonalityInsights\Support\DataCollector\InsightNode $node
-     * @return \FindBrok\PersonalityInsights\Support\DataCollector\InsightNode|null
+     * @param InsightNode $node
+     *
+     * @return InsightNode|null
      */
-    public function getNodeById($id = '', $node)
+    public function getNodeById($id = '', InsightNode $node)
     {
-        //No node
-        if ($node == null) {
-            return null;
-        }
         //This is the matching node
         if ($node->get('id') == $id) {
             //Return the node
@@ -89,7 +82,7 @@ trait ResultsProcessor
         } elseif ($node->has('children') && $node->get('children') instanceof InsightNode) {
             //Check in each children
             foreach ($node->get('children') as $childNode) {
-                if ($this->getNodeById($id, $childNode) != null) {
+                if (!is_null($this->getNodeById($id, $childNode))) {
                     //We found it
                     return $this->getNodeById($id, $childNode);
                 }
@@ -101,7 +94,7 @@ trait ResultsProcessor
     }
 
     /**
-     * Get Word count
+     * Get Word count.
      *
      * @return int|null
      */
@@ -111,7 +104,7 @@ trait ResultsProcessor
     }
 
     /**
-     * Get Source
+     * Get Source.
      *
      * @return mixed
      */
@@ -121,7 +114,7 @@ trait ResultsProcessor
     }
 
     /**
-     * Get the author
+     * Get the author.
      *
      * @return mixed
      */
@@ -131,7 +124,7 @@ trait ResultsProcessor
     }
 
     /**
-     * Get the language analysed
+     * Get the language analysed.
      *
      * @return mixed
      */
@@ -141,9 +134,9 @@ trait ResultsProcessor
     }
 
     /**
-     * Get the results tree
+     * Get the results tree.
      *
-     * @return \FindBrok\PersonalityInsights\Support\DataCollector\InsightNode
+     * @return InsightNode
      */
     public function getTree()
     {
@@ -151,7 +144,7 @@ trait ResultsProcessor
     }
 
     /**
-     * Get the Message word count if exists
+     * Get the Message word count if exists.
      *
      * @return string
      */
@@ -161,7 +154,7 @@ trait ResultsProcessor
     }
 
     /**
-     * Get the analysis level
+     * Get the analysis level.
      *
      * @return string
      */
@@ -170,7 +163,7 @@ trait ResultsProcessor
         //Get Word count
         $wordCount = $this->getWordCount();
         //Very Strong
-        if($wordCount >= 6000) {
+        if ($wordCount >= 6000) {
             return 'Very Strong';
         } elseif ($wordCount < 6000 && $wordCount >= 3500) {
             //Strong analysis
@@ -185,7 +178,7 @@ trait ResultsProcessor
     }
 
     /**
-     * Check if analysis is very strong
+     * Check if analysis is very strong.
      *
      * @return bool
      */
@@ -195,7 +188,7 @@ trait ResultsProcessor
     }
 
     /**
-     * Check if analysis is strong
+     * Check if analysis is strong.
      *
      * @return bool
      */
@@ -205,7 +198,7 @@ trait ResultsProcessor
     }
 
     /**
-     * Check if analysis is weak
+     * Check if analysis is weak.
      *
      * @return bool
      */
@@ -215,7 +208,7 @@ trait ResultsProcessor
     }
 
     /**
-     * Check if analysis is very weak
+     * Check if analysis is very weak.
      *
      * @return bool
      */

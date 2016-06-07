@@ -6,14 +6,12 @@ use FindBrok\PersonalityInsights\Exceptions\MissingParameterContentItemException
 use Illuminate\Support\Collection;
 
 /**
- * Class ContentItem
- *
- * @package FindBrok\PersonalityInsights\Support\DataCollector
+ * Class ContentItem.
  */
 class ContentItem extends Collection
 {
     /**
-     * The Content of the ContentItem
+     * The Content of the ContentItem.
      *
      * @var array
      */
@@ -155,9 +153,10 @@ class ContentItem extends Collection
     ];
 
     /**
-     * Create a new ContentItem
+     * Create a new ContentItem.
      *
      * @throws MissingParameterContentItemException
+     *
      * @param array $items
      */
     public function __construct($items = [])

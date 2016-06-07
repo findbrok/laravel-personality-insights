@@ -2,6 +2,7 @@
 
 namespace FindBrok\PersonalityInsights\Exceptions;
 
+use Exception;
 use RuntimeException;
 
 /**

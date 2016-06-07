@@ -32,5 +32,12 @@
         "psr-4": {
             "FindBrok\\PersonalityInsights\\" : "src/"
         }
-    }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
