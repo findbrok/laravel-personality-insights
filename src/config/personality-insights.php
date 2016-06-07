@@ -18,17 +18,17 @@ return [
     |--------------------------------------------------------------------------
     | Credentials
     |--------------------------------------------------------------------------
-    | 
+    |
     | Here you may define credentials for your Personality Insights Service
     | you should find them in your Bluemix console. You can define as
     | many credentials as you want
-    | 
+    |
     */
-    
+
     'credentials' => [
 
         'default' => [
-            'url' => env('PERSONALITY_INSIGHTS_URL', 'https://gateway.watsonplatform.net/personality-insights/api/'),
+            'url'      => env('PERSONALITY_INSIGHTS_URL', 'https://gateway.watsonplatform.net/personality-insights/api/'),
             'password' => env('PERSONALITY_INSIGHTS_PASSWORD', 'SomePassword'),
             'username' => env('PERSONALITY_INSIGHTS_USERNAME', 'SomeUsername'),
         ],
@@ -39,7 +39,7 @@ return [
     |--------------------------------------------------------------------------
     | X-Watson-Learning-Opt-Out
     |--------------------------------------------------------------------------
-    | 
+    |
     | By default, Watson collects data from all requests and uses the data
     | to improve the service. If you do not want to share your data,
     | set this value to true.
@@ -68,6 +68,6 @@ return [
     |
     */
 
-    'cache_expiration' => 60
-    
+    'cache_expiration' => 60,
+
 ];

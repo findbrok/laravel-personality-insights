@@ -40,12 +40,12 @@ trait ResultsProcessor
     /**
      * Check if we have specified ID, in profile.
      *
-     * @param string $id
+     * @param string      $id
      * @param InsightNode $node
      *
      * @return bool
      */
-    public function hasInsight($id = '', InsightNode $node)
+    public function hasInsight($id, InsightNode $node)
     {
         //We have the id
         if ($node->has('id') && $node->get('id') == $id) {
@@ -68,12 +68,12 @@ trait ResultsProcessor
     /**
      * Get a node Using its ID.
      *
-     * @param string $id
+     * @param string      $id
      * @param InsightNode $node
      *
      * @return InsightNode|null
      */
-    public function getNodeById($id = '', InsightNode $node)
+    public function getNodeById($id, InsightNode $node)
     {
         //This is the matching node
         if ($node->get('id') == $id) {
@@ -82,14 +82,14 @@ trait ResultsProcessor
         } elseif ($node->has('children') && $node->get('children') instanceof InsightNode) {
             //Check in each children
             foreach ($node->get('children') as $childNode) {
-                if (!is_null($this->getNodeById($id, $childNode))) {
+                if (! is_null($this->getNodeById($id, $childNode))) {
                     //We found it
                     return $this->getNodeById($id, $childNode);
                 }
             }
         } else {
             //Nothing found
-            return null;
+            return;
         }
     }
 

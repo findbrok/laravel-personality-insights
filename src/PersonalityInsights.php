@@ -11,7 +11,7 @@ use Illuminate\Contracts\Cache\Repository as Cache;
  */
 class PersonalityInsights extends AbstractPersonalityInsights implements InsightsContract
 {
-    /**
+    /*
      * Traits.
      */
     use ResultsProcessor;
@@ -33,10 +33,10 @@ class PersonalityInsights extends AbstractPersonalityInsights implements Insight
     /**
      * Create a new PersonalityInsights.
      *
-     * @param array $contentItems
      * @param Cache $cache
+     * @param array $contentItems
      */
-    public function __construct($contentItems = [], Cache $cache)
+    public function __construct(Cache $cache, $contentItems = [])
     {
         //New Up a container
         $this->newUpContainer($contentItems);
@@ -131,7 +131,7 @@ class PersonalityInsights extends AbstractPersonalityInsights implements Insight
         //No insight with this ID
         if (! $this->hasInsight($id, $this->collectTree())) {
             //We return null
-            return null;
+            return;
         }
         //Return Node
         return $this->getNodeById($id, $this->collectTree());

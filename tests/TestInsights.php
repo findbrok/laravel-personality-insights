@@ -6,7 +6,7 @@ use GuzzleHttp\Psr7\Response;
 use Orchestra\Testbench\TestCase;
 
 /**
- * Class TestInsights
+ * Class TestInsights.
  */
 class TestInsights extends TestCase
 {
@@ -56,7 +56,7 @@ class TestInsights extends TestCase
     /**
      * Get package providers.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param \Illuminate\Foundation\Application $app
      *
      * @return array
      */
@@ -78,7 +78,7 @@ class TestInsights extends TestCase
     }
 
     /**
-     * Test that the facade works as expected
+     * Test that the facade works as expected.
      *
      * @return void
      */
@@ -155,7 +155,7 @@ class TestInsights extends TestCase
         //Add content and exception is thrown here
         $this->app->make('PersonalityInsights')->addContentItems([
             'id'        => 'foo',
-            'source'    => 'bar'
+            'source'    => 'bar',
         ]);
     }
 }

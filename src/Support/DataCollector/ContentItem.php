@@ -119,7 +119,7 @@ class ContentItem extends Collection
         |--------------------------------------------------------------------------
         | parentid [string] | (Optional)
         |--------------------------------------------------------------------------
-        | 
+        |
         | The unique ID of the parent content item for this item. Used to
         | identify hierarchical relationships between posts/replies,
         | messages/replies, and so on.
@@ -132,32 +132,33 @@ class ContentItem extends Collection
         |--------------------------------------------------------------------------
         | reply [boolean] | (Optional)
         |--------------------------------------------------------------------------
-        | 
+        |
         | Indicates whether this content item is a reply to another content item.
         |
         */
-        
+
         'reply' => '',
 
         /*
         |--------------------------------------------------------------------------
         | forward [boolean] | (Optional)
         |--------------------------------------------------------------------------
-        | 
+        |
         | Indicates whether this content item is a forwarded/copied version of
         | another content item.
         |
         */
-        
-        'forward' => ''
+
+        'forward' => '',
     ];
 
     /**
      * Create a new ContentItem.
      *
-     * @throws MissingParameterContentItemException
      *
      * @param array $items
+     *
+     * @throws MissingParameterContentItemException
      */
     public function __construct($items = [])
     {
@@ -165,7 +166,7 @@ class ContentItem extends Collection
         parent::__construct($items);
 
         //If we do not have content then throw an Exception
-        if (!$this->has('content')) {
+        if (! $this->has('content')) {
             throw new MissingParameterContentItemException('Personality Insights requires a content', 422);
         }
     }

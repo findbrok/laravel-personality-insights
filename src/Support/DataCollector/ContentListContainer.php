@@ -13,7 +13,7 @@ class ContentListContainer extends Collection
     /**
      * Create a new ContentListContainer.
      *
-     * @param  mixed  $items
+     * @param mixed $items
      */
     public function __construct($items = [])
     {

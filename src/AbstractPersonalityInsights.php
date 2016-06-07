@@ -31,7 +31,7 @@ abstract class AbstractPersonalityInsights
      * @var array
      */
     protected $headers = [
-        'Accept' => 'application/json'
+        'Accept' => 'application/json',
     ];
 
     /**
@@ -93,7 +93,7 @@ abstract class AbstractPersonalityInsights
     {
         //Return headers
         return collect($this->headers)->merge([
-            'X-Watson-Learning-Opt-Out' => config('personality-insights.x_watson_learning_opt_out')
+            'X-Watson-Learning-Opt-Out' => config('personality-insights.x_watson_learning_opt_out'),
         ])->all();
     }
 

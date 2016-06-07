@@ -6,24 +6,22 @@ use Exception;
 use RuntimeException;
 
 /**
- * Class MissingParameterContentItemException
- *
- * @package FindBrok\PersonalityInsights\Exceptions
+ * Class MissingParameterContentItemException.
  */
 class MissingParameterContentItemException extends RuntimeException
 {
     /**
-     * Default error message
+     * Default error message.
      *
      * @var string
      */
     protected $message = 'Missing Some parameters for ContentItem';
 
     /**
-     * Create a new instance of MissingParameterContentItemException
+     * Create a new instance of MissingParameterContentItemException.
      *
-     * @param string $message
-     * @param int $code
+     * @param string         $message
+     * @param int            $code
      * @param Exception|null $previous
      */
     public function __construct($message = '', $code = 400, Exception $previous = null)
