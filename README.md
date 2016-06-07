@@ -1,5 +1,7 @@
 # Laravel 5 Personality Insights
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/06dd30e0-4183-4d4f-9cf0-d5045624fccf/big.png)](https://insight.sensiolabs.com/projects/06dd30e0-4183-4d4f-9cf0-d5045624fccf)
+
 [![StyleCI](https://styleci.io/repos/59461266/shield?style=flat)](https://styleci.io/repos/59461266)
 [![Build Status](https://travis-ci.org/findbrok/laravel-personality-insights.svg?branch=master)](https://travis-ci.org/findbrok/laravel-personality-insights)
 [![Latest Stable Version](https://poser.pugx.org/findbrok/laravel-personality-insights/v/stable)](https://packagist.org/packages/findbrok/laravel-personality-insights)
