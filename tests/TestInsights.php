@@ -50,9 +50,9 @@ class TestInsights extends TestCase
                              ->setMethods(['post'])
                              ->getMock();
         // Mock Contents
-        $this->contentItems = json_decode(file_get_contents(__DIR__ . '/Mocks/content-items.json'), true)['contentItems'];
+        $this->contentItems = json_decode(file_get_contents(__DIR__.'/Mocks/content-items.json'), true)['contentItems'];
         // Mock Response Body
-        $this->jsonResponse = file_get_contents(__DIR__ . '/Mocks/profile-response.json');
+        $this->jsonResponse = file_get_contents(__DIR__.'/Mocks/profile-response.json');
 
         // Set return value of post method
         $this->bridge->method('post')->withAnyParameters()->willReturn(new Response(200, [], $this->jsonResponse));
