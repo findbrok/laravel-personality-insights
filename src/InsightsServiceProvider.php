@@ -41,7 +41,7 @@ class InsightsServiceProvider extends ServiceProvider
     {
         //Publish config file
         $this->publishes([
-            __DIR__.'/config/personality-insights.php' => config_path('personality-insights.php'),
+            __DIR__ . '/config/personality-insights.php' => config_path('personality-insights.php'),
         ], 'config');
     }
 
@@ -53,7 +53,7 @@ class InsightsServiceProvider extends ServiceProvider
     public function register()
     {
         //Merge Config File
-        $this->mergeConfigFrom(__DIR__.'/config/personality-insights.php', 'personality-insights');
+        $this->mergeConfigFrom(__DIR__ . '/config/personality-insights.php', 'personality-insights');
         //Register Bindings
         $this->registerBindings();
         //Register Facades
@@ -76,11 +76,11 @@ class InsightsServiceProvider extends ServiceProvider
         //Bind WatsonBridge for Personality insights that we depend on
         $this->app->bind('PersonalityInsightsBridge', function ($app, $args) {
             //Get Username
-            $username = config('personality-insights.credentials.'.$args['credentialsName'].'.username');
+            $username = config('personality-insights.credentials.' . $args['credentialsName'] . '.username');
             //Get Password
-            $password = config('personality-insights.credentials.'.$args['credentialsName'].'.password');
+            $password = config('personality-insights.credentials.' . $args['credentialsName'] . '.password');
             //Get base url
-            $url = config('personality-insights.credentials.'.$args['credentialsName'].'.url');
+            $url = config('personality-insights.credentials.' . $args['credentialsName'] . '.url');
             //Return bridge
             return new Bridge($username, $password, $url);
         });
