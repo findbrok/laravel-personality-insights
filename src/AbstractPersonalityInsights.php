@@ -68,7 +68,7 @@ abstract class AbstractPersonalityInsights
     public function usingCredentials($name = null)
     {
         //set credentials name
-        $this->credentialsName = Config::has('personality-insights.credentials.'.$name) ? $name : null;
+        $this->credentialsName = Config::has('personality-insights.credentials.' . $name) ? $name : null;
         //Return this object
         return $this;
     }
