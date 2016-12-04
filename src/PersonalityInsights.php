@@ -2,13 +2,10 @@
 
 namespace FindBrok\PersonalityInsights;
 
-use FindBrok\PersonalityInsights\Contracts\InsightsInterface as InsightsContract;
-use FindBrok\PersonalityInsights\Support\Util\ResultsProcessor;
 use Illuminate\Contracts\Cache\Repository as Cache;
+use FindBrok\PersonalityInsights\Support\Util\ResultsProcessor;
+use FindBrok\PersonalityInsights\Contracts\InsightsInterface as InsightsContract;
 
-/**
- * Class PersonalityInsights.
- */
 class PersonalityInsights extends AbstractPersonalityInsights implements InsightsContract
 {
     /*

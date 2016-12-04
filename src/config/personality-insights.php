@@ -68,6 +68,5 @@ return [
     |
     */
 
-    'cache_expiration' => 60,
-
+    'cache_expiration' => 60
 ];

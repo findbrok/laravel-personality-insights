@@ -4,9 +4,6 @@ namespace FindBrok\PersonalityInsights\Support\Util;
 
 use FindBrok\PersonalityInsights\Support\DataCollector\InsightNode;
 
-/**
- * Class ResultsProcessor.
- */
 trait ResultsProcessor
 {
     /**
@@ -18,7 +15,7 @@ trait ResultsProcessor
     {
         return $this->collectAll($this->getTree());
     }
-
+    
     /**
      * Make all arrays as Node.
      *
@@ -36,7 +33,7 @@ trait ResultsProcessor
             }
         });
     }
-
+    
     /**
      * Check if we have specified ID, in profile.
      *
@@ -47,24 +44,26 @@ trait ResultsProcessor
      */
     public function hasInsight($id, InsightNode $node)
     {
-        //We have the id
+        // We have the id
         if ($node->has('id') && $node->get('id') == $id) {
-            //We found it
             return true;
-        } elseif ($node->has('children') && $node->get('children') instanceof InsightNode) {
-            //Check in each children
+        }
+        
+        // Node has children.
+        if ($node->has('children') && $node->get('children') instanceof InsightNode) {
+            // Check in each children.
             foreach ($node->get('children') as $childNode) {
                 if ($this->hasInsight($id, $childNode)) {
-                    //We found it
+                    // We found it.
                     return true;
                 }
             }
-        } else {
-            //Nothing found
-            return false;
         }
+        
+        // Nothing found.
+        return false;
     }
-
+    
     /**
      * Get a node Using its ID.
      *
@@ -75,24 +74,27 @@ trait ResultsProcessor
      */
     public function getNodeById($id, InsightNode $node)
     {
-        //This is the matching node
+        // This is the matching node.
         if ($node->get('id') == $id) {
-            //Return the node
+            // Return the node.
             return $node;
-        } elseif ($node->has('children') && $node->get('children') instanceof InsightNode) {
-            //Check in each children
+        }
+        
+        // Node has children.
+        if ($node->has('children') && $node->get('children') instanceof InsightNode) {
+            // Check in each children.
             foreach ($node->get('children') as $childNode) {
                 if (! is_null($this->getNodeById($id, $childNode))) {
-                    //We found it
+                    // We found it.
                     return $this->getNodeById($id, $childNode);
                 }
             }
-        } else {
-            //Nothing found
-            return;
         }
+    
+        // Nothing found.
+        return null;
     }
-
+    
     /**
      * Get Word count.
      *
@@ -102,7 +104,7 @@ trait ResultsProcessor
     {
         return $this->getFromProfile('word_count');
     }
-
+    
     /**
      * Get Source.
      *
@@ -112,7 +114,7 @@ trait ResultsProcessor
     {
         return $this->getFromProfile('source');
     }
-
+    
     /**
      * Get the author.
      *
@@ -122,7 +124,7 @@ trait ResultsProcessor
     {
         return $this->getFromProfile('id');
     }
-
+    
     /**
      * Get the language analysed.
      *
@@ -132,7 +134,7 @@ trait ResultsProcessor
     {
         return $this->getFromProfile('processed_lang');
     }
-
+    
     /**
      * Get the results tree.
      *
@@ -142,7 +144,7 @@ trait ResultsProcessor
     {
         return transform_to_node($this->getFromProfile('tree'));
     }
-
+    
     /**
      * Get the Message word count if exists.
      *
@@ -152,7 +154,7 @@ trait ResultsProcessor
     {
         return $this->getFromProfile('word_count_message');
     }
-
+    
     /**
      * Get the analysis level.
      *
@@ -160,23 +162,28 @@ trait ResultsProcessor
      */
     public function analysisLevel()
     {
-        //Get Word count
+        // Get Word count.
         $wordCount = $this->getWordCount();
-        //Very Strong
+        
+        // Very Strong.
         if ($wordCount >= 6000) {
             return 'Very Strong';
-        } elseif ($wordCount < 6000 && $wordCount >= 3500) {
-            //Strong analysis
-            return 'Strong';
-        } elseif ($wordCount < 3500 && $wordCount >= 100) {
-            //Weak analysis
-            return 'Weak';
-        } elseif ($wordCount == 100) {
-            //Very weak
-            return 'Very Weak';
         }
+        
+        // Strong analysis.
+        if ($wordCount < 6000 && $wordCount >= 3500) {
+            return 'Strong';
+        }
+        
+        // Weak analysis.
+        if ($wordCount < 3500 && $wordCount >= 100) {
+            return 'Weak';
+        }
+        
+        // Very weak.
+        return 'Very Weak';
     }
-
+    
     /**
      * Check if analysis is very strong.
      *
@@ -186,7 +193,7 @@ trait ResultsProcessor
     {
         return $this->analysisLevel() == 'Very Strong';
     }
-
+    
     /**
      * Check if analysis is strong.
      *
@@ -196,7 +203,7 @@ trait ResultsProcessor
     {
         return $this->isAnalysisVeryStrong() || $this->analysisLevel() == 'Strong';
     }
-
+    
     /**
      * Check if analysis is weak.
      *
@@ -206,7 +213,7 @@ trait ResultsProcessor
     {
         return $this->isAnalysisVeryWeak() || $this->analysisLevel() == 'Weak';
     }
-
+    
     /**
      * Check if analysis is very weak.
      *

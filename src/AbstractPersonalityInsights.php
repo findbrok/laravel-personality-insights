@@ -6,9 +6,6 @@ use Config;
 use FindBrok\PersonalityInsights\Support\DataCollector\ContentItem;
 use FindBrok\PersonalityInsights\Support\DataCollector\ContentListContainer;
 
-/**
- * Class AbstractPersonalityInsights.
- */
 abstract class AbstractPersonalityInsights
 {
     /**

@@ -1,40 +1,46 @@
 {
-    "name": "findbrok/laravel-personality-insights",
-    "description": "Using IBM Watson Personality Insights Service with Laravel 5",
-    "keywords": ["laravel", "ibm", "watson", "personality", "insights"],
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Percy Mamedy",
-            "email": "percymamedy@gmail.com"
-        }
-    ],
-    "require": {
-        "php": ">=5.5.0",
-        "laravel/framework": "5.0 - 5.3",
-        "findbrok/php-watson-api-bridge": "^1.0",
-        "ramsey/uuid": "^3.4"
-    },
-    "require-dev": {
-        "fzaninotto/faker": "~1.4",
-        "phpunit/phpunit": "~4.0",
-        "mockery/mockery": "0.9.*",
-        "orchestra/testbench": "~3.0",
-        "guzzlehttp/guzzle": "~5.3|~6.0|~6.2"
-    },
-    "autoload": {
-        "files": [
-            "src/Support/helpers.php"
-        ],
-        "psr-4": {
-            "FindBrok\\PersonalityInsights\\" : "src/"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.x-dev"
-        }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+	"name": "findbrok/laravel-personality-insights",
+	"description": "Using IBM Watson Personality Insights Service with Laravel 5",
+	"keywords": [
+		"laravel",
+		"ibm",
+		"watson",
+		"personality",
+		"insights"
+	],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Percy Mamedy",
+			"email": "percymamedy@gmail.com"
+		}
+	],
+	"require": {
+		"php": ">=5.5.0",
+		"laravel/framework": "5.0 - 5.3",
+		"findbrok/php-watson-api-bridge": "^1.0",
+		"ramsey/uuid": "^3.4"
+	},
+	"require-dev": {
+		"fzaninotto/faker": "~1.4",
+		"phpunit/phpunit": "~4.0",
+		"mockery/mockery": "0.9.*",
+		"orchestra/testbench": "~3.0",
+		"guzzlehttp/guzzle": "~5.3|~6.0|~6.2"
+	},
+	"autoload": {
+		"files": [
+			"src/Support/helpers.php"
+		],
+		"psr-4": {
+			"FindBrok\\PersonalityInsights\\": "src/"
+		}
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "1.1.x-dev"
+		}
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true
 }

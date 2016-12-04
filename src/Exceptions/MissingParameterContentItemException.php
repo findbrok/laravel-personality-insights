@@ -5,9 +5,6 @@ namespace FindBrok\PersonalityInsights\Exceptions;
 use Exception;
 use RuntimeException;
 
-/**
- * Class MissingParameterContentItemException.
- */
 class MissingParameterContentItemException extends RuntimeException
 {
     /**
@@ -26,9 +23,9 @@ class MissingParameterContentItemException extends RuntimeException
      */
     public function __construct($message = '', $code = 400, Exception $previous = null)
     {
-        //Format message
+        // Format message
         $message = 'ContentItem Error: ' . (($message != '') ? $message : $this->message);
-        //Call parent exception
+        // Call parent exception
         parent::__construct($message, $code, $previous);
     }
 }

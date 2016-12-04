@@ -2,12 +2,9 @@
 
 namespace FindBrok\PersonalityInsights\Support\DataCollector;
 
-use Illuminate\Support\Collection;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Collection;
 
-/**
- * Class ContentListContainer.
- */
 class ContentListContainer extends Collection
 {
     /**

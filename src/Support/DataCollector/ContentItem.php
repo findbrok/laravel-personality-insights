@@ -2,12 +2,9 @@
 
 namespace FindBrok\PersonalityInsights\Support\DataCollector;
 
-use FindBrok\PersonalityInsights\Exceptions\MissingParameterContentItemException;
 use Illuminate\Support\Collection;
+use FindBrok\PersonalityInsights\Exceptions\MissingParameterContentItemException;
 
-/**
- * Class ContentItem.
- */
 class ContentItem extends Collection
 {
     /**
@@ -16,7 +13,7 @@ class ContentItem extends Collection
      * @var array
      */
     protected $items = [
-
+        
         /*
         |--------------------------------------------------------------------------
         | id [string] | (Optional)
@@ -25,9 +22,9 @@ class ContentItem extends Collection
         | A unique identifier for this content item
         |
         */
-
+        
         'id' => '',
-
+        
         /*
         |--------------------------------------------------------------------------
         | content [string] | (Required)
@@ -36,9 +33,9 @@ class ContentItem extends Collection
         | A maximum of 20 MB of content to be analyzed
         |
         */
-
+        
         'content' => '',
-
+        
         /*
         |--------------------------------------------------------------------------
         | userid [string] | (Optional)
@@ -47,9 +44,9 @@ class ContentItem extends Collection
         | A unique identifier for the author of this content
         |
         */
-
+        
         'userid' => '',
-
+        
         /*
         |--------------------------------------------------------------------------
         | sourceid [string] | (Optional)
@@ -58,9 +55,9 @@ class ContentItem extends Collection
         | An identifier for the source of this content; for example, blog123 or twitter
         |
         */
-
+        
         'sourceid' => '',
-
+        
         /*
         |--------------------------------------------------------------------------
         | created [integer] | (Optional)
@@ -69,9 +66,9 @@ class ContentItem extends Collection
         | When was the content created, UNIX Timestamp
         |
         */
-
+        
         'created' => '',
-
+        
         /*
         |--------------------------------------------------------------------------
         | updated [integer] | (Optional)
@@ -80,9 +77,9 @@ class ContentItem extends Collection
         | When was the content updated, UNIX Timestamp
         |
         */
-
+        
         'updated' => '',
-
+        
         /*
         |--------------------------------------------------------------------------
         | contenttype [string] | (Optional)
@@ -93,9 +90,9 @@ class ContentItem extends Collection
         | - text/html
         |
         */
-
+        
         'contenttype' => '',
-
+        
         /*
         |--------------------------------------------------------------------------
         | language [string] | (Optional)
@@ -112,9 +109,9 @@ class ContentItem extends Collection
         | as en.
         |
         */
-
+        
         'language' => '',
-
+        
         /*
         |--------------------------------------------------------------------------
         | parentid [string] | (Optional)
@@ -125,9 +122,9 @@ class ContentItem extends Collection
         | messages/replies, and so on.
         |
         */
-
+        
         'parentid' => '',
-
+        
         /*
         |--------------------------------------------------------------------------
         | reply [boolean] | (Optional)
@@ -136,9 +133,9 @@ class ContentItem extends Collection
         | Indicates whether this content item is a reply to another content item.
         |
         */
-
+        
         'reply' => '',
-
+        
         /*
         |--------------------------------------------------------------------------
         | forward [boolean] | (Optional)
@@ -148,10 +145,10 @@ class ContentItem extends Collection
         | another content item.
         |
         */
-
+        
         'forward' => '',
     ];
-
+    
     /**
      * Create a new ContentItem.
      *
@@ -164,7 +161,7 @@ class ContentItem extends Collection
     {
         //New Up parent
         parent::__construct($items);
-
+        
         //If we do not have content then throw an Exception
         if (! $this->has('content')) {
             throw new MissingParameterContentItemException('Personality Insights requires a content', 422);

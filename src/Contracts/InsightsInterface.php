@@ -2,9 +2,6 @@
 
 namespace FindBrok\PersonalityInsights\Contracts;
 
-/**
- * Interface InsightsInterface.
- */
 interface InsightsInterface
 {
     /**

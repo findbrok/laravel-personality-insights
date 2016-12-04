@@ -2,15 +2,12 @@
 
 namespace FindBrok\PersonalityInsights;
 
-use FindBrok\PersonalityInsights\Contracts\InsightsInterface as InsightsContract;
-use FindBrok\PersonalityInsights\Facades\PersonalityInsightsFacade;
 use FindBrok\WatsonBridge\Bridge;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use FindBrok\PersonalityInsights\Facades\PersonalityInsightsFacade;
+use FindBrok\PersonalityInsights\Contracts\InsightsInterface as InsightsContract;
 
-/**
- * Class InsightsServiceProvider.
- */
 class InsightsServiceProvider extends ServiceProvider
 {
     /**
@@ -22,7 +19,7 @@ class InsightsServiceProvider extends ServiceProvider
         InsightsContract::class => PersonalityInsights::class,
         'PersonalityInsights'   => PersonalityInsights::class,
     ];
-
+    
     /**
      * Define all Facades here.
      *
@@ -31,7 +28,7 @@ class InsightsServiceProvider extends ServiceProvider
     protected $facades = [
         'PersonalityInsights' => PersonalityInsightsFacade::class,
     ];
-
+    
     /**
      * Bootstrap the application services.
      *
@@ -44,7 +41,7 @@ class InsightsServiceProvider extends ServiceProvider
             __DIR__ . '/config/personality-insights.php' => config_path('personality-insights.php'),
         ], 'config');
     }
-
+    
     /**
      * Register the service provider.
      *
@@ -59,7 +56,7 @@ class InsightsServiceProvider extends ServiceProvider
         //Register Facades
         $this->registerFacades();
     }
-
+    
     /**
      * Registers all Interface to Class bindings.
      *
@@ -72,7 +69,7 @@ class InsightsServiceProvider extends ServiceProvider
             //Bind Interface to class
             $this->app->bind($interface, $class);
         });
-
+        
         //Bind WatsonBridge for Personality insights that we depend on
         $this->app->bind('PersonalityInsightsBridge', function ($app, $args) {
             //Get Username
@@ -81,11 +78,12 @@ class InsightsServiceProvider extends ServiceProvider
             $password = config('personality-insights.credentials.' . $args['credentialsName'] . '.password');
             //Get base url
             $url = config('personality-insights.credentials.' . $args['credentialsName'] . '.url');
+            
             //Return bridge
             return new Bridge($username, $password, $url);
         });
     }
-
+    
     /**
      * Registers all facades.
      *

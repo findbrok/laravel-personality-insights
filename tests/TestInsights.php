@@ -1,9 +1,9 @@
 <?php
 
-use FindBrok\PersonalityInsights\Facades\PersonalityInsightsFacade;
-use FindBrok\PersonalityInsights\PersonalityInsights as PersonalityInsightsConcrete;
 use GuzzleHttp\Psr7\Response;
 use Orchestra\Testbench\TestCase;
+use FindBrok\PersonalityInsights\Facades\PersonalityInsightsFacade;
+use FindBrok\PersonalityInsights\PersonalityInsights as PersonalityInsightsConcrete;
 
 class TestInsights extends TestCase
 {
@@ -13,12 +13,14 @@ class TestInsights extends TestCase
      * @var \FindBrok\WatsonBridge\Bridge
      */
     public $bridge;
+    
     /**
      * Content Items.
      *
      * @var array
      */
     public $contentItems = [];
+    
     /**
      * Json Response mock.
      *

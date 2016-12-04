@@ -4,9 +4,6 @@ namespace FindBrok\PersonalityInsights\Support\DataCollector;
 
 use Illuminate\Support\Collection;
 
-/**
- * Class InsightNode.
- */
 class InsightNode extends Collection
 {
     /**
