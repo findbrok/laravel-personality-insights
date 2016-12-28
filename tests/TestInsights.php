@@ -59,7 +59,7 @@ class TestInsights extends TestCase
         // Set return value of post method
         $this->bridge->method('post')->withAnyParameters()->willReturn(new Response(200, [], $this->jsonResponse));
         // Override Bridge in IOC
-        $this->app->instance('PersonalityInsightsBridge', $this->bridge);
+        $this->app->instance('PIBridge', $this->bridge);
     }
 
     /**

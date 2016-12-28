@@ -5,7 +5,9 @@ namespace FindBrok\PersonalityInsights;
 use FindBrok\WatsonBridge\Bridge;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use FindBrok\PersonalityInsights\Auth\AccessManager;
 use FindBrok\PersonalityInsights\Facades\PersonalityInsightsFacade;
+use FindBrok\PersonalityInsights\Support\DataCollector\ContentListContainer;
 use FindBrok\PersonalityInsights\Contracts\InsightsInterface as InsightsContract;
 
 class InsightsServiceProvider extends ServiceProvider
@@ -36,7 +38,7 @@ class InsightsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //Publish config file
+        // Publish config file
         $this->publishes([
             __DIR__ . '/config/personality-insights.php' => config_path('personality-insights.php'),
         ], 'config');
@@ -49,11 +51,13 @@ class InsightsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //Merge Config File
+        // Merge Config File
         $this->mergeConfigFrom(__DIR__ . '/config/personality-insights.php', 'personality-insights');
-        //Register Bindings
+        
+        // Register Bindings
         $this->registerBindings();
-        //Register Facades
+        
+        // Register Facades
         $this->registerFacades();
     }
     
@@ -64,23 +68,24 @@ class InsightsServiceProvider extends ServiceProvider
      */
     public function registerBindings()
     {
-        //Bind Implementations of Interfaces
+        // Bind Implementations of Interfaces.
         collect($this->implementations)->each(function ($class, $interface) {
-            //Bind Interface to class
             $this->app->bind($interface, $class);
         });
         
-        //Bind WatsonBridge for Personality insights that we depend on
-        $this->app->bind('PersonalityInsightsBridge', function ($app, $args) {
-            //Get Username
-            $username = config('personality-insights.credentials.' . $args['credentialsName'] . '.username');
-            //Get Password
-            $password = config('personality-insights.credentials.' . $args['credentialsName'] . '.password');
-            //Get base url
-            $url = config('personality-insights.credentials.' . $args['credentialsName'] . '.url');
-            
-            //Return bridge
-            return new Bridge($username, $password, $url);
+        // Bind AccessManager.
+        $this->app->bind('PIAccessManager', function ($app, $args) {
+            return new AccessManager($args['credentialsName'], $args['apiVersion']);
+        });
+        
+        // Bind WatsonBridge for Personality insights that we depend on.
+        $this->app->bind('PIBridge', function ($app, $args) {
+            return new Bridge($args['username'], $args['password'], $args['url']);
+        });
+        
+        // Bind PersonalityInsights ContentListContainer in App.
+        $this->app->bind('PIContentListContainer', function ($app, $contentItems) {
+            return (new ContentListContainer($contentItems))->cleanContainer();
         });
     }
     
