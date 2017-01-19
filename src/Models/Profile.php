@@ -22,7 +22,7 @@ class Profile
      * A recursive array of TraitTreeNode objects that provides detailed results for the Big Five personality
      * characteristics (dimensions and facets) inferred from the input text.
      *
-     * @var array
+     * @var TraitTreeNode[]
      */
     public $personality;
 }
