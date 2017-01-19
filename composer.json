@@ -19,7 +19,8 @@
 		"php": ">=5.5.0",
 		"laravel/framework": "5.0 - 5.3",
 		"findbrok/php-watson-api-bridge": "^1.0",
-		"ramsey/uuid": "^3.4"
+		"ramsey/uuid": "^3.4",
+		"netresearch/jsonmapper": "^1.1"
 	},
 	"require-dev": {
 		"fzaninotto/faker": "~1.4",

@@ -43,7 +43,7 @@ class AccessManager
     }
     
     /**
-     * Setsthe Credentials we will use to perform requests.
+     * Sets the Credentials we will use to perform requests.
      *
      * @param string $name
      *
