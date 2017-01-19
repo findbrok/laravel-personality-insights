@@ -13,14 +13,14 @@ class TestInsights extends TestCase
      * @var \FindBrok\WatsonBridge\Bridge
      */
     public $bridge;
-    
+
     /**
      * Content Items.
      *
      * @var array
      */
     public $contentItems = [];
-    
+
     /**
      * Json Response mock.
      *
@@ -52,7 +52,8 @@ class TestInsights extends TestCase
                              ->setMethods(['post'])
                              ->getMock();
         // Mock Contents
-        $this->contentItems = json_decode(file_get_contents(__DIR__ . '/Mocks/content-items.json'), true)['contentItems'];
+        $this->contentItems = json_decode(
+                                  file_get_contents(__DIR__ . '/Mocks/content-items.json'), true)['contentItems'];
         // Mock Response Body
         $this->jsonResponse = file_get_contents(__DIR__ . '/Mocks/profile-response.json');
 
@@ -65,12 +66,18 @@ class TestInsights extends TestCase
     /**
      * Test to see if we have Intellect insight in the Profile.
      *
-     * @return bool
+     * @return void
      */
     public function testCheckIfIntellectInsightsWithTrueAsAnswer()
     {
         // Get Insights
-        $insights = $this->app->make('PersonalityInsights')->addContentItems($this->contentItems);
+        /** @var PersonalityInsightsConcrete $insights */
+        $insights = $this->app->make('PersonalityInsights')
+                              ->addContentItems($this->contentItems);
+
+
+        dd($insights->getFullProfile()['word_count']);
+
         // We have intellect so its true
         $this->assertTrue($insights->hasInsight('Intellect', $insights->collectTree()));
     }
@@ -82,10 +89,13 @@ class TestInsights extends TestCase
      */
     public function testConfirmThatAnalysisIsVeryStrong()
     {
+        // Get Insights
+        /** @var PersonalityInsightsConcrete $insights */
+        $insights = $this->app->make('PersonalityInsights')
+                              ->addContentItems($this->contentItems);
+
         // Analysis is strong
-        $this->assertTrue($this->app->make('PersonalityInsights')
-                                    ->addContentItems($this->contentItems)
-                                    ->isAnalysisStrong());
+        $this->assertTrue($insights->isAnalysisStrong());
     }
 
     /**
@@ -96,7 +106,9 @@ class TestInsights extends TestCase
     public function testGetFullProfileWithExpectedProfile()
     {
         // Get Full Profile
-        $profile = $this->app->make('PersonalityInsights')->addContentItems($this->contentItems)->getFullProfile();
+        $profile = $this->app->make('PersonalityInsights')
+                             ->addContentItems($this->contentItems)
+                             ->getFullProfile();
         // See Full Profile
         $this->assertJsonStringEqualsJsonString($this->jsonResponse, $profile->toJson());
     }
@@ -126,10 +138,11 @@ class TestInsights extends TestCase
     public function testNoContentPassedToContentItemObjectMissingParameterExceptionThrown()
     {
         // Add content and exception is thrown here
-        $this->app->make('PersonalityInsights')->addContentItems([
-            'id'     => 'foo',
-            'source' => 'bar',
-        ]);
+        $this->app->make('PersonalityInsights')->addContentItems(
+            [
+                'id'     => 'foo',
+                'source' => 'bar',
+            ]);
     }
 
     /**

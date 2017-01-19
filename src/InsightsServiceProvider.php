@@ -2,6 +2,7 @@
 
 namespace FindBrok\PersonalityInsights;
 
+use JsonMapper;
 use FindBrok\WatsonBridge\Bridge;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
@@ -86,6 +87,11 @@ class InsightsServiceProvider extends ServiceProvider
         // Bind PersonalityInsights ContentListContainer in App.
         $this->app->bind('PIContentListContainer', function ($app, $contentItems) {
             return (new ContentListContainer($contentItems))->cleanContainer();
+        });
+
+        // JSON Mapper Service.
+        $this->app->bind(JsonMapper::class, function($app) {
+            return new JsonMapper;
         });
     }
     

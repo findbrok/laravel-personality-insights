@@ -2,41 +2,52 @@
 
 namespace FindBrok\PersonalityInsights;
 
+use JsonMapper;
+use FindBrok\PersonalityInsights\Models\Profile;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use FindBrok\PersonalityInsights\Support\Util\ResultsProcessor;
 
 class PersonalityInsights extends AbstractPersonalityInsights
 {
     use ResultsProcessor;
-    
+
     /**
      * Full profile.
      *
-     * @var \Illuminate\Support\Collection
+     * @var Profile
      */
     protected $profile;
-    
+
     /**
      * The Cache repository.
      *
      * @var \Illuminate\Contracts\Cache\Repository
      */
     protected $cache;
-    
+
+    /**
+     * JsonMapper instance.
+     *
+     * @var JsonMapper
+     */
+    protected $jsonMapper;
+
     /**
      * Create a new PersonalityInsights.
      *
-     * @param Cache $cache
-     * @param array $contentItems
+     * @param Cache      $cache
+     * @param JsonMapper $jsonMapper
+     * @param array      $contentItems
      */
-    public function __construct(Cache $cache, $contentItems = [])
+    public function __construct(Cache $cache, JsonMapper $jsonMapper, $contentItems = [])
     {
-        // New Up a container
+        $this->cache      = $cache;
+        $this->jsonMapper = $jsonMapper;
+
+        // New Up a container.
         $this->newUpContainer($contentItems);
-        // Inject cache service in
-        $this->cache = $cache;
     }
-    
+
     /**
      * Pre-load a profile.
      *
@@ -48,16 +59,16 @@ class PersonalityInsights extends AbstractPersonalityInsights
     {
         // Override profile
         $this->profile = $profile;
-        
+
         return $this;
     }
-    
+
     /**
      * Get Full Insights From Watson API.
      *
      * @throws \FindBrok\WatsonBridge\Exceptions\WatsonBridgeException
      *
-     * @return \Illuminate\Support\Collection
+     * @return Profile
      */
     public function getProfileFromWatson()
     {
@@ -66,10 +77,10 @@ class PersonalityInsights extends AbstractPersonalityInsights
             // Return results from cache.
             return $this->cache->get($this->getContainer()->getCacheKey());
         }
-        
+
         // Get AccessManager.
         $accessManager = $this->makeAccessManager();
-        
+
         // Cross the bridge with the Manager.
         $response = $this->makeBridge($accessManager)
                          ->post(
@@ -77,36 +88,37 @@ class PersonalityInsights extends AbstractPersonalityInsights
                              $this->getContainer()
                                   ->getContentsForRequest()
                          );
-        
-        // Decode profile.
-        $profile = collect(json_decode($response->getBody()->getContents(), true));
-        
+
+        // Decode and map onto Object.
+        /** @var Profile $profile */
+        $profile = $this->jsonMapper->map(json_decode($response->getBody()->getContents()), new Profile);
+
         // Cache results if cache is on.
         if ($this->cacheIsOn()) {
             $this->cache->put($this->getContainer()->getCacheKey(), $profile, $this->cacheLifetime());
         }
-        
+
         // Return profile.
         return $profile;
     }
-    
+
     /**
      * Get Full Insights.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Profile
      */
     public function getFullProfile()
     {
         // Profile not already loaded.
-        if (! $this->hasProfilePreLoaded()) {
+        if (!$this->hasProfilePreLoaded()) {
             // Fetch Profile From Watson API.
             $this->profile = $this->getProfileFromWatson();
         }
-        
+
         // Return Results.
         return $this->profile;
     }
-    
+
     /**
      * Get a data item from Profile.
      *
@@ -118,11 +130,11 @@ class PersonalityInsights extends AbstractPersonalityInsights
     {
         // Get Profile.
         $profile = $this->getFullProfile();
-        
+
         // Return data item.
         return $profile->get($id);
     }
-    
+
     /**
      * Get an Insight Data.
      *
@@ -133,19 +145,19 @@ class PersonalityInsights extends AbstractPersonalityInsights
     public function getInsight($id = '')
     {
         // No insight with this ID.
-        if (! $this->hasInsight($id, $this->collectTree())) {
+        if (!$this->hasInsight($id, $this->collectTree())) {
             // We return null.
             return null;
         }
-        
+
         // Return Node.
         return $this->getNodeById($id, $this->collectTree());
     }
-    
+
     /**
      * Cleans the object by erasing all profile and content info.
      *
-     * @return self
+     * @return $this
      */
     public function clean()
     {
@@ -153,11 +165,12 @@ class PersonalityInsights extends AbstractPersonalityInsights
         $this->profile = null;
         // Empty credentials.
         $this->credentialsName = null;
+
         // Recreate a new container.
         $this->newUpContainer();
         // Clean headers.
         $this->cleanHeaders();
-        
+
         // Return calling object.
         return $this;
     }

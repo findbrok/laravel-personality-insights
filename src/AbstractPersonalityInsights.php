@@ -173,7 +173,7 @@ abstract class AbstractPersonalityInsights implements InsightsContract
      *
      * @param AccessManager|null $accessManager
      *
-     * @return Bridge
+     * @return \FindBrok\WatsonBridge\Bridge;
      */
     public function makeBridge(AccessManager $accessManager = null)
     {
