@@ -3,6 +3,7 @@
 namespace FindBrok\PersonalityInsights;
 
 use FindBrok\PersonalityInsights\Auth\AccessManager;
+use FindBrok\PersonalityInsights\Models\Profile;
 use FindBrok\PersonalityInsights\Support\DataCollector\ContentItem;
 use FindBrok\PersonalityInsights\Support\DataCollector\ContentListContainer;
 use FindBrok\PersonalityInsights\Contracts\InsightsInterface as InsightsContract;
@@ -15,30 +16,31 @@ abstract class AbstractPersonalityInsights implements InsightsContract
      * @var ContentListContainer
      */
     protected $contentListContainer = null;
-    
+
     /**
      * The name of the credentials to use.
      *
      * @var string
      */
     protected $credentialsName = null;
-    
+
     /**
      * The API Version to use.
      *
      * @var string
      */
     protected $apiVersion = null;
-    
+
     /**
      * Request Headers.
      *
      * @var array
      */
-    protected $headers = [
-        'Accept' => 'application/json',
-    ];
-    
+    protected $headers
+        = [
+            'Accept' => 'application/json',
+        ];
+
     /**
      * Create the ContentListContainer and push in items.
      *
@@ -51,7 +53,7 @@ abstract class AbstractPersonalityInsights implements InsightsContract
         // New Up Container
         $this->contentListContainer = app('PIContentListContainer', $contentItems);
     }
-    
+
     /**
      * Get the current Container.
      *
@@ -62,7 +64,7 @@ abstract class AbstractPersonalityInsights implements InsightsContract
         //Return container
         return $this->contentListContainer;
     }
-    
+
     /**
      * Specify the credentials name to use.
      *
@@ -74,11 +76,11 @@ abstract class AbstractPersonalityInsights implements InsightsContract
     {
         // Set credentials name.
         $this->credentialsName = config('personality-insights.credentials.' . $name);
-        
+
         // Return this.
         return $this;
     }
-    
+
     /**
      * Sets the API version to use for the requests.
      *
@@ -90,11 +92,11 @@ abstract class AbstractPersonalityInsights implements InsightsContract
     {
         // Set credentials name.
         $this->apiVersion = $apiVersion;
-        
+
         // Return this.
         return $this;
     }
-    
+
     /**
      * Return the Credential Name to use.
      *
@@ -102,9 +104,9 @@ abstract class AbstractPersonalityInsights implements InsightsContract
      */
     public function getCredentialsName()
     {
-        return $this->credentialsName ? : config('personality-insights.default_credentials');
+        return $this->credentialsName ?: config('personality-insights.default_credentials');
     }
-    
+
     /**
      * Return the Api Version to use.
      *
@@ -112,9 +114,9 @@ abstract class AbstractPersonalityInsights implements InsightsContract
      */
     public function getApiVersion()
     {
-        return $this->apiVersion ? : config('personality-insights.api_version');
+        return $this->apiVersion ?: config('personality-insights.api_version');
     }
-    
+
     /**
      * Return the headers used for making request.
      *
@@ -123,11 +125,12 @@ abstract class AbstractPersonalityInsights implements InsightsContract
     protected function getHeaders()
     {
         //Return headers
-        return collect($this->headers)->merge([
-            'X-Watson-Learning-Opt-Out' => config('personality-insights.x_watson_learning_opt_out'),
-        ])->all();
+        return collect($this->headers)->merge(
+            [
+                'X-Watson-Learning-Opt-Out' => config('personality-insights.x_watson_learning_opt_out'),
+            ])->all();
     }
-    
+
     /**
      * Make headers as they were.
      *
@@ -138,7 +141,7 @@ abstract class AbstractPersonalityInsights implements InsightsContract
         //Clean up header
         $this->headers = ['Accept' => 'application/json'];
     }
-    
+
     /**
      * Append Headers to request.
      *
@@ -150,11 +153,11 @@ abstract class AbstractPersonalityInsights implements InsightsContract
     {
         //Append headers
         $this->headers = collect($this->headers)->merge($headers)->all();
-        
+
         //Return calling object
         return $this;
     }
-    
+
     /**
      * Creates and returns a new instance of AccessManager.
      *
@@ -162,12 +165,13 @@ abstract class AbstractPersonalityInsights implements InsightsContract
      */
     public function makeAccessManager()
     {
-        return app('PIAccessManager', [
+        return app(
+            'PIAccessManager', [
             'credentialsName' => $this->getCredentialsName(),
             'apiVersion'      => $this->getApiVersion()
         ]);
     }
-    
+
     /**
      * Create a new WatsonBridge to handle Requests.
      *
@@ -179,11 +183,11 @@ abstract class AbstractPersonalityInsights implements InsightsContract
     {
         // Make AccessManager if its not Present.
         $accessManager = $accessManager ?: $this->makeAccessManager();
-        
+
         // Create and Return Bridge.
         return app('PIBridge', $accessManager->getCredentials())->appendHeaders($this->getHeaders());
     }
-    
+
     /**
      * Add a ContentItem to ContentListContainer.
      *
@@ -194,13 +198,14 @@ abstract class AbstractPersonalityInsights implements InsightsContract
     public function addSingleContentItem($items = [])
     {
         //Push ContentItem in ContentListContainer
-        $this->contentListContainer->push($items instanceof ContentItem ? $items
-            : personality_insights_content_item($items));
-        
+        $this->contentListContainer->push(
+            $items instanceof ContentItem ? $items
+                : personality_insights_content_item($items));
+
         //Return object
         return $this;
     }
-    
+
     /**
      * Add ContentItems to the Container.
      *
@@ -211,15 +216,16 @@ abstract class AbstractPersonalityInsights implements InsightsContract
     public function addContentItems($items = [])
     {
         //Loop on each item
-        collect($items)->each(function ($item) {
-            //Add each content to the Container
-            $this->addSingleContentItem($item);
-        });
-        
+        collect($items)->each(
+            function ($item) {
+                //Add each content to the Container
+                $this->addSingleContentItem($item);
+            });
+
         //Return object
         return $this;
     }
-    
+
     /**
      * Checks if cache is on.
      *
@@ -229,7 +235,7 @@ abstract class AbstractPersonalityInsights implements InsightsContract
     {
         return config('personality-insights.cache_on');
     }
-    
+
     /**
      * Get The cache lifetime in minutes.
      *
@@ -239,7 +245,7 @@ abstract class AbstractPersonalityInsights implements InsightsContract
     {
         return config('personality-insights.cache_expiration');
     }
-    
+
     /**
      * Checks if profile data is already loaded in profile prop.
      *
@@ -247,6 +253,10 @@ abstract class AbstractPersonalityInsights implements InsightsContract
      */
     public function hasProfilePreLoaded()
     {
-        return property_exists($this, 'profile') && ! is_null($this->profile);
+        return (
+            property_exists($this, 'profile') &&
+            !is_null($this->profile) &&
+            $this->profile instanceof Profile
+        );
     }
 }

@@ -75,11 +75,95 @@ class TestInsights extends TestCase
         $insights = $this->app->make('PersonalityInsights')
                               ->addContentItems($this->contentItems);
 
-
-        dd($insights->getFullProfile()['word_count']);
+        // Get Profile.
+        $profile = $insights->getFullProfile();
 
         // We have intellect so its true
-        $this->assertTrue($insights->hasInsight('Intellect', $insights->collectTree()));
+        $this->assertTrue($profile->hasFacet('Intellect'));
+        $this->assertTrue($profile->hasFacet('facet_intellect'));
+    }
+
+    /**
+     * Test to see if we have Curiosity need insight is in the Profile.
+     *
+     * @return void
+     */
+    public function testCheckIfCuriosityNeedExistsWithTrueAsAnswer()
+    {
+        // Get Insights
+        /** @var PersonalityInsightsConcrete $insights */
+        $insights = $this->app->make('PersonalityInsights')
+                              ->addContentItems($this->contentItems);
+
+        // Get Profile.
+        $profile = $insights->getFullProfile();
+
+        // We have Curiosity so its true
+        $this->assertTrue($profile->hasNeed('Curiosity'));
+        $this->assertTrue($profile->hasNeed('need_curiosity'));
+    }
+
+    /**
+     * Test to check if Conservation Value exists on the Profile.
+     *
+     * @return void
+     */
+    public function testCheckIfConservationValueExistsWithTrueAsAnswer()
+    {
+        // Get Insights
+        /** @var PersonalityInsightsConcrete $insights */
+        $insights = $this->app->make('PersonalityInsights')
+                              ->addContentItems($this->contentItems);
+
+        // Get Profile.
+        $profile = $insights->getFullProfile();
+
+        // We have Conservation so its true
+        $this->assertTrue($profile->hasValue('Conservation'));
+        $this->assertTrue($profile->hasValue('value_conservation'));
+    }
+
+    /**
+     * Test that we can retrieve Behaviors correctly.
+     *
+     * @return void
+     */
+    public function testBehaviorFunctionsOfTheProfile()
+    {
+        // Get Insights
+        /** @var PersonalityInsightsConcrete $insights */
+        $insights = $this->app->make('PersonalityInsights')
+                              ->addContentItems($this->contentItems);
+
+        // Get Profile.
+        $profile = $insights->getFullProfile();
+
+        $this->assertEquals('behavior_2200', $profile->findBehaviorsFor(['10:00 pm'])->trait_id);
+        $this->assertCount(2, $profile->findBehaviorsFor(['10:00 pm', 'Monday']));
+    }
+
+    /**
+     * Test our consumption preferences methods works.
+     *
+     * @return void
+     */
+    public function testConsumptionPreferencesMethodsOnProfile()
+    {
+        // Get Insights
+        /** @var PersonalityInsightsConcrete $insights */
+        $insights = $this->app->make('PersonalityInsights')
+                              ->addContentItems($this->contentItems);
+
+        // Get Profile.
+        $profile = $insights->getFullProfile();
+
+        // We have Purchasing Preferences category so its true.
+        $this->assertTrue($profile->hasConsumptionPreferenceCategory('Purchasing Preferences'));
+        $this->assertTrue($profile->hasConsumptionPreferenceCategory('consumption_preferences_shopping'));
+
+        // We have Consumption Preferences so its true.
+        $this->assertTrue($profile->hasConsumptionPreference('consumption_preferences_automobile_safety'));
+        $this->assertTrue($profile->hasConsumptionPreference('consumption_preferences_clothes_comfort'));
     }
 
     /**
@@ -110,7 +194,10 @@ class TestInsights extends TestCase
                              ->addContentItems($this->contentItems)
                              ->getFullProfile();
         // See Full Profile
-        $this->assertJsonStringEqualsJsonString($this->jsonResponse, $profile->toJson());
+        $this->assertEquals(
+            (new JsonMapper)->map(json_decode($this->jsonResponse), new \FindBrok\PersonalityInsights\Models\Profile()),
+            $profile
+        );
     }
 
     /**
@@ -123,9 +210,11 @@ class TestInsights extends TestCase
         // Get Intellect
         $intellect = $this->app->make('PersonalityInsights')
                                ->addContentItems($this->contentItems)
-                               ->getInsight('Intellect');
+                               ->getFullProfile()
+                               ->findFacetByName('Intellect');
+
         // We see the expected percentage
-        $this->assertEquals(41.7, $intellect->calculatePercentage());
+        $this->assertEquals(87.2, $intellect->calculatePercentage());
     }
 
     /**
@@ -170,6 +259,11 @@ class TestInsights extends TestCase
             $insights
         );
         $profile = $insights->getFullProfile();
-        $this->assertJsonStringEqualsJsonString($this->jsonResponse, $profile->toJson());
+
+        // See Full Profile
+        $this->assertEquals(
+            (new JsonMapper)->map(json_decode($this->jsonResponse), new \FindBrok\PersonalityInsights\Models\Profile()),
+            $profile
+        );
     }
 }

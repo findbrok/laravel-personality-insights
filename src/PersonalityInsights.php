@@ -110,48 +110,13 @@ class PersonalityInsights extends AbstractPersonalityInsights
     public function getFullProfile()
     {
         // Profile not already loaded.
-        if (!$this->hasProfilePreLoaded()) {
+        if (! $this->hasProfilePreLoaded()) {
             // Fetch Profile From Watson API.
             $this->profile = $this->getProfileFromWatson();
         }
 
         // Return Results.
         return $this->profile;
-    }
-
-    /**
-     * Get a data item from Profile.
-     *
-     * @param string $id
-     *
-     * @return mixed
-     */
-    public function getFromProfile($id = '')
-    {
-        // Get Profile.
-        $profile = $this->getFullProfile();
-
-        // Return data item.
-        return $profile->get($id);
-    }
-
-    /**
-     * Get an Insight Data.
-     *
-     * @param string $id
-     *
-     * @return \FindBrok\PersonalityInsights\Support\DataCollector\InsightNode|null
-     */
-    public function getInsight($id = '')
-    {
-        // No insight with this ID.
-        if (!$this->hasInsight($id, $this->collectTree())) {
-            // We return null.
-            return null;
-        }
-
-        // Return Node.
-        return $this->getNodeById($id, $this->collectTree());
     }
 
     /**

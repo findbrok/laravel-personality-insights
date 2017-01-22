@@ -1,13 +1,7 @@
 {
 	"name": "findbrok/laravel-personality-insights",
 	"description": "Using IBM Watson Personality Insights Service with Laravel 5",
-	"keywords": [
-		"laravel",
-		"ibm",
-		"watson",
-		"personality",
-		"insights"
-	],
+	"keywords": ["laravel", "ibm", "watson", "personality", "insights"],
 	"license": "MIT",
 	"authors": [
 		{
@@ -17,7 +11,7 @@
 	],
 	"require": {
 		"php": ">=5.5.0",
-		"laravel/framework": "5.0 - 5.3",
+		"illuminate/support": "5.0 - 5.3",
 		"findbrok/php-watson-api-bridge": "^1.0",
 		"ramsey/uuid": "^3.4",
 		"netresearch/jsonmapper": "^1.1"
@@ -26,8 +20,7 @@
 		"fzaninotto/faker": "~1.4",
 		"phpunit/phpunit": "~4.0",
 		"mockery/mockery": "0.9.*",
-		"orchestra/testbench": "~3.0",
-		"guzzlehttp/guzzle": "~5.3|~6.0|~6.2"
+		"orchestra/testbench": "~3.0"
 	},
 	"autoload": {
 		"files": [

@@ -2,7 +2,10 @@
 
 namespace FindBrok\PersonalityInsights\Models;
 
-class TraitTreeNode
+use Illuminate\Support\Collection;
+use FindBrok\PersonalityInsights\Models\Contracts\Childrenable;
+
+class TraitTreeNode extends BaseModel implements Childrenable
 {
     /**
      * The unique identifier of the characteristic to which the results pertain.
@@ -46,10 +49,65 @@ class TraitTreeNode
     public $raw_score;
 
     /**
-     * For personality (Big Five) dimensions, an array of TraitTreeNode objects that provides more detailed results for
-     * the facets of each dimension as inferred from the input text.
+     * For personality (Big Five) dimensions, a Collection of TraitTreeNode objects that provides more detailed results
+     * for the facets of each dimension as inferred from the input text.
      *
-     * @var TraitTreeNode[]
+     * @var Collection
      */
-    public $children;
+    protected $children;
+
+    /**
+     * Sets the children.
+     *
+     * @param TraitTreeNode[] $children
+     *
+     * @return $this
+     */
+    public function setChildren($children)
+    {
+        $this->children = collect($children);
+
+        return $this;
+    }
+
+    /**
+     * Gets Children nodes.
+     *
+     * @return Collection
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * Checks if TraitTreeNode has Children.
+     *
+     * @return bool
+     */
+    public function hasChildren()
+    {
+        return (
+            $this->children instanceof Collection &&
+            $this->children->isNotEmpty()
+        );
+    }
+
+    /**
+     * Calculate the percentage for this node.
+     *
+     * @param int $decimal
+     *
+     * @return float|null
+     */
+    public function calculatePercentage($decimal = 1)
+    {
+        // Profile not loaded yet.
+        if (is_null($this->percentile)) {
+            return null;
+        }
+
+        // Calculate percentage and return value
+        return (float)number_format($this->percentile * 100, $decimal, '.', '');
+    }
 }

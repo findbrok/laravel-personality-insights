@@ -30,24 +30,6 @@ interface InsightsInterface
     public function getFullProfile();
 
     /**
-     * Get a data item from Profile.
-     *
-     * @param string $id
-     *
-     * @return mixed
-     */
-    public function getFromProfile($id = '');
-
-    /**
-     * Get an Insight Data.
-     *
-     * @param string $id
-     *
-     * @return \FindBrok\PersonalityInsights\Support\DataCollector\InsightNode|null
-     */
-    public function getInsight($id = '');
-
-    /**
      * Cleans the object by erasing all profile and content info.
      *
      * @return $this
