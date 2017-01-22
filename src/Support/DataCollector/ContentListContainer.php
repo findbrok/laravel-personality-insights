@@ -14,7 +14,7 @@ class ContentListContainer extends Collection
     {
         parent::__construct($items);
     }
-    
+
     /**
      * Remove all invalid contents in the ContentListContainer.
      *
@@ -26,11 +26,11 @@ class ContentListContainer extends Collection
             // Remove all which are not content item.
             return ! ($item instanceof ContentItem);
         });
-        
+
         // Return Container.
         return $this;
     }
-    
+
     /**
      * Unique cache key for this Container.
      *
@@ -42,7 +42,7 @@ class ContentListContainer extends Collection
         return 'PersonalityInsights-' .
                Uuid::uuid5(Uuid::NAMESPACE_DNS, collect(['contentItems' => $this->toArray()])->toJson())->toString();
     }
-    
+
     /**
      * Get the content of the Container for passing to a request.
      *

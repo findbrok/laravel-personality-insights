@@ -22,7 +22,7 @@ class TraitTreeNode extends BaseModel implements Childrenable
     public $name;
 
     /**
-     * The category of the characteristic
+     * The category of the characteristic.
      *
      * @var string
      */
@@ -87,10 +87,9 @@ class TraitTreeNode extends BaseModel implements Childrenable
      */
     public function hasChildren()
     {
-        return (
+        return
             $this->children instanceof Collection &&
-            $this->children->isNotEmpty()
-        );
+            $this->children->isNotEmpty();
     }
 
     /**
@@ -104,10 +103,10 @@ class TraitTreeNode extends BaseModel implements Childrenable
     {
         // Profile not loaded yet.
         if (is_null($this->percentile)) {
-            return null;
+            return;
         }
 
         // Calculate percentage and return value
-        return (float)number_format($this->percentile * 100, $decimal, '.', '');
+        return (float) number_format($this->percentile * 100, $decimal, '.', '');
     }
 }

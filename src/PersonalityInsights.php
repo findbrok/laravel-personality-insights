@@ -41,7 +41,7 @@ class PersonalityInsights extends AbstractPersonalityInsights
      */
     public function __construct(Cache $cache, JsonMapper $jsonMapper, $contentItems = [])
     {
-        $this->cache      = $cache;
+        $this->cache = $cache;
         $this->jsonMapper = $jsonMapper;
 
         // New Up a container.

@@ -22,7 +22,7 @@ class InsightsServiceProvider extends ServiceProvider
         InsightsContract::class => PersonalityInsights::class,
         'PersonalityInsights'   => PersonalityInsights::class,
     ];
-    
+
     /**
      * Define all Facades here.
      *
@@ -31,7 +31,7 @@ class InsightsServiceProvider extends ServiceProvider
     protected $facades = [
         'PersonalityInsights' => PersonalityInsightsFacade::class,
     ];
-    
+
     /**
      * Bootstrap the application services.
      *
@@ -44,7 +44,7 @@ class InsightsServiceProvider extends ServiceProvider
             __DIR__ . '/config/personality-insights.php' => config_path('personality-insights.php'),
         ], 'config');
     }
-    
+
     /**
      * Register the service provider.
      *
@@ -54,14 +54,14 @@ class InsightsServiceProvider extends ServiceProvider
     {
         // Merge Config File
         $this->mergeConfigFrom(__DIR__ . '/config/personality-insights.php', 'personality-insights');
-        
+
         // Register Bindings
         $this->registerBindings();
-        
+
         // Register Facades
         $this->registerFacades();
     }
-    
+
     /**
      * Registers all Interface to Class bindings.
      *
@@ -73,28 +73,28 @@ class InsightsServiceProvider extends ServiceProvider
         collect($this->implementations)->each(function ($class, $interface) {
             $this->app->bind($interface, $class);
         });
-        
+
         // Bind AccessManager.
         $this->app->bind('PIAccessManager', function ($app, $args) {
             return new AccessManager($args['credentialsName'], $args['apiVersion']);
         });
-        
+
         // Bind WatsonBridge for Personality insights that we depend on.
         $this->app->bind('PIBridge', function ($app, $args) {
             return new Bridge($args['username'], $args['password'], $args['url']);
         });
-        
+
         // Bind PersonalityInsights ContentListContainer in App.
         $this->app->bind('PIContentListContainer', function ($app, $contentItems) {
             return (new ContentListContainer($contentItems))->cleanContainer();
         });
 
         // JSON Mapper Service.
-        $this->app->bind(JsonMapper::class, function($app) {
+        $this->app->bind(JsonMapper::class, function ($app) {
             return new JsonMapper;
         });
     }
-    
+
     /**
      * Registers all facades.
      *

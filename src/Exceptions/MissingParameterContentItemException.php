@@ -13,7 +13,7 @@ class MissingParameterContentItemException extends RuntimeException
      * @var string
      */
     protected $message = 'Missing Some parameters for ContentItem';
-    
+
     /**
      * MissingParameterContentItemException constructor.
      *

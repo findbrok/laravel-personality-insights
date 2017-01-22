@@ -24,8 +24,6 @@ abstract class BaseModel implements JsonSerializable
         if (property_exists($this, $name)) {
             return $this->{$name};
         }
-
-        return null;
     }
 
     /**
@@ -42,7 +40,7 @@ abstract class BaseModel implements JsonSerializable
     {
         // Nodes are null so nothing to Travers.
         if (is_null($nodes)) {
-            return null;
+            return;
         }
 
         foreach ($nodes as $node) {
@@ -54,8 +52,6 @@ abstract class BaseModel implements JsonSerializable
                 return $this->traverseNodesAndFindBy($propName, $propValue, $node->getChildren());
             }
         }
-
-        return null;
     }
 
     /**

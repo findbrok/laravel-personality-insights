@@ -23,7 +23,7 @@ trait ResultsProcessor
     {
         return $this->getFullProfile()->processed_language;
     }
-    
+
     /**
      * Get the analysis level.
      *
@@ -33,26 +33,26 @@ trait ResultsProcessor
     {
         // Get Word count.
         $wordCount = $this->getWordCount();
-        
+
         // Very Strong.
         if ($wordCount >= 6000) {
             return 'Very Strong';
         }
-        
+
         // Strong analysis.
         if ($wordCount < 6000 && $wordCount >= 3500) {
             return 'Strong';
         }
-        
+
         // Weak analysis.
         if ($wordCount < 3500 && $wordCount >= 100) {
             return 'Weak';
         }
-        
+
         // Very weak.
         return 'Very Weak';
     }
-    
+
     /**
      * Check if analysis is very strong.
      *
@@ -62,7 +62,7 @@ trait ResultsProcessor
     {
         return $this->analysisLevel() == 'Very Strong';
     }
-    
+
     /**
      * Check if analysis is strong.
      *
@@ -72,7 +72,7 @@ trait ResultsProcessor
     {
         return $this->isAnalysisVeryStrong() || $this->analysisLevel() == 'Strong';
     }
-    
+
     /**
      * Check if analysis is weak.
      *
@@ -82,7 +82,7 @@ trait ResultsProcessor
     {
         return $this->isAnalysisVeryWeak() || $this->analysisLevel() == 'Weak';
     }
-    
+
     /**
      * Check if analysis is very weak.
      *
