@@ -89,7 +89,7 @@ class TraitTreeNode extends BaseModel implements Childrenable
     {
         return
             $this->children instanceof Collection &&
-            $this->children->isNotEmpty();
+            ! $this->children->isEmpty();
     }
 
     /**
@@ -103,7 +103,7 @@ class TraitTreeNode extends BaseModel implements Childrenable
     {
         // Profile not loaded yet.
         if (is_null($this->percentile)) {
-            return;
+            return null;
         }
 
         // Calculate percentage and return value
