@@ -50,7 +50,6 @@ class ConsumptionPreferencesNode extends BaseModel implements Childrenable
      */
     public function getChildren()
     {
-        return null;
     }
 
     /**

@@ -34,7 +34,7 @@ return [
         ],
 
     ],
-    
+
     /*
     |--------------------------------------------------------------------------
     | API version
@@ -43,7 +43,7 @@ return [
     | Here you may specify the Personality Insights API version to use.
     |
     */
-    
+
     'api_version' => env('PERSONALITY_INSIGHTS_API_VERSION', 'v3'),
 
     /*
@@ -79,5 +79,5 @@ return [
     |
     */
 
-    'cache_expiration' => 60
+    'cache_expiration' => 60,
 ];

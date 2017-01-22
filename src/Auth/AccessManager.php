@@ -12,14 +12,14 @@ class AccessManager
      * @var array
      */
     protected $credentials = [];
-    
+
     /**
      * The API Version we are using.
      *
      * @var string
      */
     protected $apiVersion = null;
-    
+
     /**
      * CredentialManager constructor.
      *
@@ -31,7 +31,7 @@ class AccessManager
         $this->setCredentials($credentialsName);
         $this->setApiVersion($apiVersion);
     }
-    
+
     /**
      * Returns the Credentials to use for requests.
      *
@@ -41,7 +41,7 @@ class AccessManager
     {
         return $this->credentials;
     }
-    
+
     /**
      * Sets the Credentials we will use to perform requests.
      *
@@ -57,17 +57,17 @@ class AccessManager
         if (is_null($name)) {
             $name = config('personality-insights.default_credentials');
         }
-        
+
         // Credentials does not exist.
         if (! config()->has('personality-insights.credentials.' . $name)) {
             throw new InvalidCredentialsName;
         }
-        
+
         $this->credentials = config('personality-insights.credentials.' . $name);
-        
+
         return $this;
     }
-    
+
     /**
      * Returns the API version to use for
      * making requests.
@@ -78,7 +78,7 @@ class AccessManager
     {
         return $this->apiVersion;
     }
-    
+
     /**
      * Sets ths API version we are using.
      *
@@ -90,14 +90,14 @@ class AccessManager
     {
         // No version specified.
         if (is_null($apiVersion)) {
-            $apiVersion = config('personality-insights.api_version') ? : 'v3';
+            $apiVersion = config('personality-insights.api_version') ?: 'v3';
         }
-        
+
         $this->apiVersion = $apiVersion;
-        
+
         return $this;
     }
-    
+
     /**
      * Get the API path used for getting Profile.
      *

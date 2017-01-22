@@ -2,8 +2,8 @@
 
 namespace FindBrok\PersonalityInsights;
 
-use FindBrok\PersonalityInsights\Auth\AccessManager;
 use FindBrok\PersonalityInsights\Models\Profile;
+use FindBrok\PersonalityInsights\Auth\AccessManager;
 use FindBrok\PersonalityInsights\Support\DataCollector\ContentItem;
 use FindBrok\PersonalityInsights\Support\DataCollector\ContentListContainer;
 use FindBrok\PersonalityInsights\Contracts\InsightsInterface as InsightsContract;
@@ -168,7 +168,7 @@ abstract class AbstractPersonalityInsights implements InsightsContract
         return app(
             'PIAccessManager', [
             'credentialsName' => $this->getCredentialsName(),
-            'apiVersion'      => $this->getApiVersion()
+            'apiVersion'      => $this->getApiVersion(),
         ]);
     }
 
@@ -253,10 +253,9 @@ abstract class AbstractPersonalityInsights implements InsightsContract
      */
     public function hasProfilePreLoaded()
     {
-        return (
+        return
             property_exists($this, 'profile') &&
-            !is_null($this->profile) &&
-            $this->profile instanceof Profile
-        );
+            ! is_null($this->profile) &&
+            $this->profile instanceof Profile;
     }
 }

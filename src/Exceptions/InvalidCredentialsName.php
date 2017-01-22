@@ -13,7 +13,7 @@ class InvalidCredentialsName extends RuntimeException
      * @var string
      */
     protected $message = 'Specified Credentials Name is invalid.';
-    
+
     /**
      * InvalidCredentialName constructor.
      *

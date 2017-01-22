@@ -51,10 +51,9 @@ class ConsumptionPreferencesCategoryNode extends BaseModel implements Childrenab
      */
     public function hasChildren()
     {
-        return (
+        return
             $this->consumption_preferences instanceof Collection &&
-            $this->consumption_preferences->isNotEmpty()
-        );
+            $this->consumption_preferences->isNotEmpty();
     }
 
     /**
