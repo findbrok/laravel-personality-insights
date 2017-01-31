@@ -132,11 +132,11 @@ abstract class AbstractPersonalityInsights implements InsightsContract
     {
         // Return headers.
         return collect($this->headers)
-            ->merge([ 'X-Watson-Learning-Opt-Out' => config('personality-insights.x_watson_learning_opt_out') ])->all();
+            ->merge(['X-Watson-Learning-Opt-Out' => config('personality-insights.x_watson_learning_opt_out')])->all();
     }
 
     /**
-     * Get Query to pass additionally to the request,
+     * Get Query to pass additionally to the request,.
      *
      * @return string
      */
@@ -151,7 +151,7 @@ abstract class AbstractPersonalityInsights implements InsightsContract
         }
 
         // We have something in the result.
-        if ( ! empty($finalQueryString)) {
+        if (! empty($finalQueryString)) {
             rtrim($finalQueryString, '&');
         }
 
@@ -185,7 +185,7 @@ abstract class AbstractPersonalityInsights implements InsightsContract
     protected function cleanHeaders()
     {
         // Clean up header.
-        $this->headers = [ 'Accept' => 'application/json' ];
+        $this->headers = ['Accept' => 'application/json'];
     }
 
     /**

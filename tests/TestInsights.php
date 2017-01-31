@@ -37,7 +37,7 @@ class TestInsights extends TestCase
      */
     protected function getPackageProviders($app)
     {
-        return [ 'FindBrok\PersonalityInsights\InsightsServiceProvider' ];
+        return ['FindBrok\PersonalityInsights\InsightsServiceProvider'];
     }
 
     /**
@@ -48,7 +48,7 @@ class TestInsights extends TestCase
         parent::setUp();
         // Mock Watson Bridge
         $this->bridge = $this->getMockBuilder('FindBrok\WatsonBridge\Bridge')->disableOriginalConstructor()
-                             ->setMethods([ 'post' ])->getMock();
+                             ->setMethods(['post'])->getMock();
         // Mock Contents
         $this->contentItems = json_decode(file_get_contents(__DIR__.'/Mocks/content-items.json'), true)['contentItems'];
         // Mock Response Body
@@ -131,8 +131,8 @@ class TestInsights extends TestCase
         // Get Profile.
         $profile = $insights->getFullProfile();
 
-        $this->assertEquals('behavior_2200', $profile->findBehaviorsFor([ '10:00 pm' ])->trait_id);
-        $this->assertCount(2, $profile->findBehaviorsFor([ '10:00 pm', 'Monday' ]));
+        $this->assertEquals('behavior_2200', $profile->findBehaviorsFor(['10:00 pm'])->trait_id);
+        $this->assertCount(2, $profile->findBehaviorsFor(['10:00 pm', 'Monday']));
     }
 
     /**
@@ -211,7 +211,7 @@ class TestInsights extends TestCase
     public function testNoContentPassedToContentItemObjectMissingParameterExceptionThrown()
     {
         // Add content and exception is thrown here
-        $this->app->make('PersonalityInsights')->addContentItems([ 'id' => 'foo', 'source' => 'bar' ]);
+        $this->app->make('PersonalityInsights')->addContentItems(['id' => 'foo', 'source' => 'bar']);
     }
 
     /**

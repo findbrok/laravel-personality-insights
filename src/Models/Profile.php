@@ -334,7 +334,7 @@ class Profile extends BaseModel implements Jsonable
         }
 
         // Specifically convert times to array.
-        $times = ! is_array($times) ? [ $times ] : $times;
+        $times = ! is_array($times) ? [$times] : $times;
 
         // Return Behavior at specific times
         $behaviors = $this->behavior->reject(function ($behavior) use ($times) {

@@ -44,7 +44,7 @@ class ContentListContainer extends Collection
     public function getCacheKey()
     {
         // Return Key.
-        return 'PersonalityInsights-'.Uuid::uuid5(Uuid::NAMESPACE_DNS, collect([ 'contentItems' => $this->toArray() ])->toJson())
+        return 'PersonalityInsights-'.Uuid::uuid5(Uuid::NAMESPACE_DNS, collect(['contentItems' => $this->toArray()])->toJson())
                                           ->toString();
     }
 
@@ -56,6 +56,6 @@ class ContentListContainer extends Collection
     public function getContentsForRequest()
     {
         // Return correct format for request.
-        return collect([ 'contentItems' => $this->toArray() ])->all();
+        return collect(['contentItems' => $this->toArray()])->all();
     }
 }
