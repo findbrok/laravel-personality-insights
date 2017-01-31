@@ -2,7 +2,7 @@
 
 use FindBrok\PersonalityInsights\Support\DataCollector;
 
-if (! function_exists('personality_insights_content_item')) {
+if ( ! function_exists('personality_insights_content_item')) {
     /**
      * Creates a new ContentItem.
      *

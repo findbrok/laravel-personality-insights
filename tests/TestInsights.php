@@ -37,7 +37,7 @@ class TestInsights extends TestCase
      */
     protected function getPackageProviders($app)
     {
-        return ['FindBrok\PersonalityInsights\InsightsServiceProvider'];
+        return [ 'FindBrok\PersonalityInsights\InsightsServiceProvider' ];
     }
 
     /**
@@ -47,15 +47,12 @@ class TestInsights extends TestCase
     {
         parent::setUp();
         // Mock Watson Bridge
-        $this->bridge = $this->getMockBuilder('FindBrok\WatsonBridge\Bridge')
-                             ->disableOriginalConstructor()
-                             ->setMethods(['post'])
-                             ->getMock();
+        $this->bridge = $this->getMockBuilder('FindBrok\WatsonBridge\Bridge')->disableOriginalConstructor()
+                             ->setMethods([ 'post' ])->getMock();
         // Mock Contents
-        $this->contentItems = json_decode(
-                                  file_get_contents(__DIR__ . '/Mocks/content-items.json'), true)['contentItems'];
+        $this->contentItems = json_decode(file_get_contents(__DIR__.'/Mocks/content-items.json'), true)['contentItems'];
         // Mock Response Body
-        $this->jsonResponse = file_get_contents(__DIR__ . '/Mocks/profile-response.json');
+        $this->jsonResponse = file_get_contents(__DIR__.'/Mocks/profile-response.json');
 
         // Set return value of post method
         $this->bridge->method('post')->withAnyParameters()->willReturn(new Response(200, [], $this->jsonResponse));
@@ -72,8 +69,7 @@ class TestInsights extends TestCase
     {
         // Get Insights
         /** @var PersonalityInsightsConcrete $insights */
-        $insights = $this->app->make('PersonalityInsights')
-                              ->addContentItems($this->contentItems);
+        $insights = $this->app->make('PersonalityInsights')->addContentItems($this->contentItems);
 
         // Get Profile.
         $profile = $insights->getFullProfile();
@@ -92,8 +88,7 @@ class TestInsights extends TestCase
     {
         // Get Insights
         /** @var PersonalityInsightsConcrete $insights */
-        $insights = $this->app->make('PersonalityInsights')
-                              ->addContentItems($this->contentItems);
+        $insights = $this->app->make('PersonalityInsights')->addContentItems($this->contentItems);
 
         // Get Profile.
         $profile = $insights->getFullProfile();
@@ -112,8 +107,7 @@ class TestInsights extends TestCase
     {
         // Get Insights
         /** @var PersonalityInsightsConcrete $insights */
-        $insights = $this->app->make('PersonalityInsights')
-                              ->addContentItems($this->contentItems);
+        $insights = $this->app->make('PersonalityInsights')->addContentItems($this->contentItems);
 
         // Get Profile.
         $profile = $insights->getFullProfile();
@@ -132,14 +126,13 @@ class TestInsights extends TestCase
     {
         // Get Insights
         /** @var PersonalityInsightsConcrete $insights */
-        $insights = $this->app->make('PersonalityInsights')
-                              ->addContentItems($this->contentItems);
+        $insights = $this->app->make('PersonalityInsights')->addContentItems($this->contentItems);
 
         // Get Profile.
         $profile = $insights->getFullProfile();
 
-        $this->assertEquals('behavior_2200', $profile->findBehaviorsFor(['10:00 pm'])->trait_id);
-        $this->assertCount(2, $profile->findBehaviorsFor(['10:00 pm', 'Monday']));
+        $this->assertEquals('behavior_2200', $profile->findBehaviorsFor([ '10:00 pm' ])->trait_id);
+        $this->assertCount(2, $profile->findBehaviorsFor([ '10:00 pm', 'Monday' ]));
     }
 
     /**
@@ -151,8 +144,7 @@ class TestInsights extends TestCase
     {
         // Get Insights
         /** @var PersonalityInsightsConcrete $insights */
-        $insights = $this->app->make('PersonalityInsights')
-                              ->addContentItems($this->contentItems);
+        $insights = $this->app->make('PersonalityInsights')->addContentItems($this->contentItems);
 
         // Get Profile.
         $profile = $insights->getFullProfile();
@@ -175,8 +167,7 @@ class TestInsights extends TestCase
     {
         // Get Insights
         /** @var PersonalityInsightsConcrete $insights */
-        $insights = $this->app->make('PersonalityInsights')
-                              ->addContentItems($this->contentItems);
+        $insights = $this->app->make('PersonalityInsights')->addContentItems($this->contentItems);
 
         // Analysis is strong
         $this->assertTrue($insights->isAnalysisStrong());
@@ -190,14 +181,9 @@ class TestInsights extends TestCase
     public function testGetFullProfileWithExpectedProfile()
     {
         // Get Full Profile
-        $profile = $this->app->make('PersonalityInsights')
-                             ->addContentItems($this->contentItems)
-                             ->getFullProfile();
+        $profile = $this->app->make('PersonalityInsights')->addContentItems($this->contentItems)->getFullProfile();
         // See Full Profile
-        $this->assertEquals(
-            (new JsonMapper)->map(json_decode($this->jsonResponse), new \FindBrok\PersonalityInsights\Models\Profile()),
-            $profile
-        );
+        $this->assertEquals((new JsonMapper)->map(json_decode($this->jsonResponse), new \FindBrok\PersonalityInsights\Models\Profile()), $profile);
     }
 
     /**
@@ -208,9 +194,7 @@ class TestInsights extends TestCase
     public function testGetIntellectInsightsWithExpectedPercentage()
     {
         // Get Intellect
-        $intellect = $this->app->make('PersonalityInsights')
-                               ->addContentItems($this->contentItems)
-                               ->getFullProfile()
+        $intellect = $this->app->make('PersonalityInsights')->addContentItems($this->contentItems)->getFullProfile()
                                ->findFacetByName('Intellect');
 
         // We see the expected percentage
@@ -227,11 +211,7 @@ class TestInsights extends TestCase
     public function testNoContentPassedToContentItemObjectMissingParameterExceptionThrown()
     {
         // Add content and exception is thrown here
-        $this->app->make('PersonalityInsights')->addContentItems(
-            [
-                'id'     => 'foo',
-                'source' => 'bar',
-            ]);
+        $this->app->make('PersonalityInsights')->addContentItems([ 'id' => 'foo', 'source' => 'bar' ]);
     }
 
     /**
@@ -254,16 +234,10 @@ class TestInsights extends TestCase
     public function testPersonalityInsightsFacade()
     {
         $insights = PersonalityInsightsFacade::addContentItems($this->contentItems);
-        $this->assertInstanceOf(
-            PersonalityInsightsConcrete::class,
-            $insights
-        );
+        $this->assertInstanceOf(PersonalityInsightsConcrete::class, $insights);
         $profile = $insights->getFullProfile();
 
         // See Full Profile
-        $this->assertEquals(
-            (new JsonMapper)->map(json_decode($this->jsonResponse), new \FindBrok\PersonalityInsights\Models\Profile()),
-            $profile
-        );
+        $this->assertEquals((new JsonMapper)->map(json_decode($this->jsonResponse), new \FindBrok\PersonalityInsights\Models\Profile()), $profile);
     }
 }

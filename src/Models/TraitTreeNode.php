@@ -87,9 +87,7 @@ class TraitTreeNode extends BaseModel implements Childrenable
      */
     public function hasChildren()
     {
-        return
-            $this->children instanceof Collection &&
-            ! $this->children->isEmpty();
+        return $this->children instanceof Collection && ! $this->children->isEmpty();
     }
 
     /**

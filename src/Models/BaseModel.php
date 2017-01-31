@@ -21,9 +21,13 @@ abstract class BaseModel implements JsonSerializable
      */
     public function __get($name)
     {
+        // Return Property if its there.
         if (property_exists($this, $name)) {
             return $this->{$name};
         }
+
+        // Nothing to return.
+        return null;
     }
 
     /**
@@ -40,7 +44,7 @@ abstract class BaseModel implements JsonSerializable
     {
         // Nodes are null so nothing to Travers.
         if (is_null($nodes)) {
-            return;
+            return null;
         }
 
         foreach ($nodes as $node) {

@@ -78,16 +78,8 @@ class PersonalityInsights extends AbstractPersonalityInsights
             return $this->cache->get($this->getContainer()->getCacheKey());
         }
 
-        // Get AccessManager.
-        $accessManager = $this->makeAccessManager();
-
-        // Cross the bridge with the Manager.
-        $response = $this->makeBridge($accessManager)
-                         ->post(
-                             $accessManager->getProfileResourcePath(),
-                             $this->getContainer()
-                                  ->getContentsForRequest()
-                         );
+        // Send Request to Watson.
+        $response = $this->sendRequest();
 
         // Decode and map onto Object.
         /** @var Profile $profile */
@@ -110,7 +102,7 @@ class PersonalityInsights extends AbstractPersonalityInsights
     public function getFullProfile()
     {
         // Profile not already loaded.
-        if (! $this->hasProfilePreLoaded()) {
+        if ( ! $this->hasProfilePreLoaded()) {
             // Fetch Profile From Watson API.
             $this->profile = $this->getProfileFromWatson();
         }
@@ -135,6 +127,8 @@ class PersonalityInsights extends AbstractPersonalityInsights
         $this->newUpContainer();
         // Clean headers.
         $this->cleanHeaders();
+        // Clean Query
+        $this->cleanQuery();
 
         // Return calling object.
         return $this;

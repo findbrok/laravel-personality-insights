@@ -36,10 +36,16 @@ abstract class AbstractPersonalityInsights implements InsightsContract
      *
      * @var array
      */
-    protected $headers
-        = [
-            'Accept' => 'application/json',
-        ];
+    protected $headers = [
+        'Accept' => 'application/json',
+    ];
+
+    /**
+     * Request Query.
+     *
+     * @var array
+     */
+    protected $query = [];
 
     /**
      * Create the ContentListContainer and push in items.
@@ -50,8 +56,8 @@ abstract class AbstractPersonalityInsights implements InsightsContract
      */
     public function newUpContainer($contentItems = [])
     {
-        // New Up Container
-        $this->contentListContainer = app('PIContentListContainer', $contentItems);
+        // New Up Container.
+        $this->contentListContainer = app(ContentListContainer::SERVICE_ID, $contentItems);
     }
 
     /**
@@ -61,7 +67,7 @@ abstract class AbstractPersonalityInsights implements InsightsContract
      */
     public function getContainer()
     {
-        //Return container
+        // Return container.
         return $this->contentListContainer;
     }
 
@@ -75,7 +81,7 @@ abstract class AbstractPersonalityInsights implements InsightsContract
     public function usingCredentials($name = null)
     {
         // Set credentials name.
-        $this->credentialsName = config('personality-insights.credentials.' . $name);
+        $this->credentialsName = config('personality-insights.credentials.'.$name);
 
         // Return this.
         return $this;
@@ -124,11 +130,51 @@ abstract class AbstractPersonalityInsights implements InsightsContract
      */
     protected function getHeaders()
     {
-        //Return headers
-        return collect($this->headers)->merge(
-            [
-                'X-Watson-Learning-Opt-Out' => config('personality-insights.x_watson_learning_opt_out'),
-            ])->all();
+        // Return headers.
+        return collect($this->headers)
+            ->merge([ 'X-Watson-Learning-Opt-Out' => config('personality-insights.x_watson_learning_opt_out') ])->all();
+    }
+
+    /**
+     * Get Query to pass additionally to the request,
+     *
+     * @return string
+     */
+    protected function getQuery()
+    {
+        // Our final results.
+        $finalQueryString = '';
+
+        // Construct query string.
+        foreach ($this->query as $key => $value) {
+            $finalQueryString .= $key.'='.$value.'&';
+        }
+
+        // We have something in the result.
+        if ( ! empty($finalQueryString)) {
+            rtrim($finalQueryString, '&');
+        }
+
+        // We return our results.
+        return $finalQueryString;
+    }
+
+    /**
+     * Send API Request to Watson and get Response.
+     *
+     * @return \GuzzleHttp\Psr7\Response
+     */
+    protected function sendRequest()
+    {
+        // Get AccessManager.
+        $accessManager = $this->makeAccessManager();
+
+        // Make a Watson Bridge.
+        $watsonBridge = $this->makeBridge($accessManager);
+
+        // Cross the Bridge and return the Response.
+        return $watsonBridge->post($accessManager->getProfileResourcePath().$this->getQuery(), $this->getContainer()
+                                                                                                    ->getContentsForRequest());
     }
 
     /**
@@ -138,8 +184,18 @@ abstract class AbstractPersonalityInsights implements InsightsContract
      */
     protected function cleanHeaders()
     {
-        //Clean up header
-        $this->headers = ['Accept' => 'application/json'];
+        // Clean up header.
+        $this->headers = [ 'Accept' => 'application/json' ];
+    }
+
+    /**
+     * Reset Query data in the Class.
+     *
+     * @return void
+     */
+    protected function cleanQuery()
+    {
+        $this->query = [];
     }
 
     /**
@@ -149,12 +205,27 @@ abstract class AbstractPersonalityInsights implements InsightsContract
      *
      * @return self
      */
-    public function appendHeaders($headers = [])
+    public function appendHeaders(array $headers = [])
     {
-        //Append headers
+        // Append headers.
         $this->headers = collect($this->headers)->merge($headers)->all();
 
-        //Return calling object
+        // Return calling object.
+        return $this;
+    }
+
+    /**
+     * Add Query to the Request.
+     *
+     * @param array $query
+     *
+     * @return self
+     */
+    public function withQuery(array $query = [])
+    {
+        // Set Query in class.
+        $this->query = collect($this->query)->merge($query)->all();
+
         return $this;
     }
 
@@ -165,8 +236,7 @@ abstract class AbstractPersonalityInsights implements InsightsContract
      */
     public function makeAccessManager()
     {
-        return app(
-            'PIAccessManager', [
+        return app(AccessManager::SERVICE_ID, [
             'credentialsName' => $this->getCredentialsName(),
             'apiVersion'      => $this->getApiVersion(),
         ]);
@@ -198,9 +268,7 @@ abstract class AbstractPersonalityInsights implements InsightsContract
     public function addSingleContentItem($items = [])
     {
         //Push ContentItem in ContentListContainer
-        $this->contentListContainer->push(
-            $items instanceof ContentItem ? $items
-                : personality_insights_content_item($items));
+        $this->contentListContainer->push($items instanceof ContentItem ? $items : personality_insights_content_item($items));
 
         //Return object
         return $this;
@@ -216,11 +284,10 @@ abstract class AbstractPersonalityInsights implements InsightsContract
     public function addContentItems($items = [])
     {
         //Loop on each item
-        collect($items)->each(
-            function ($item) {
-                //Add each content to the Container
-                $this->addSingleContentItem($item);
-            });
+        collect($items)->each(function ($item) {
+            //Add each content to the Container
+            $this->addSingleContentItem($item);
+        });
 
         //Return object
         return $this;
@@ -253,9 +320,6 @@ abstract class AbstractPersonalityInsights implements InsightsContract
      */
     public function hasProfilePreLoaded()
     {
-        return
-            property_exists($this, 'profile') &&
-            ! is_null($this->profile) &&
-            $this->profile instanceof Profile;
+        return property_exists($this, 'profile') && ! is_null($this->profile) && $this->profile instanceof Profile;
     }
 }

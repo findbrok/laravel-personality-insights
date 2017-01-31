@@ -220,9 +220,7 @@ class Profile extends BaseModel implements Jsonable
      */
     public function hasFacet($facet)
     {
-        return
-            ! is_null($this->findFacetByName($facet)) ||
-            ! is_null($this->findFacetById($facet));
+        return ! is_null($this->findFacetByName($facet)) || ! is_null($this->findFacetById($facet));
     }
 
     /**
@@ -270,9 +268,7 @@ class Profile extends BaseModel implements Jsonable
      */
     public function hasNeed($need)
     {
-        return
-            ! is_null($this->findNeedByName($need)) ||
-            ! is_null($this->findNeedById($need));
+        return ! is_null($this->findNeedByName($need)) || ! is_null($this->findNeedById($need));
     }
 
     /**
@@ -320,9 +316,7 @@ class Profile extends BaseModel implements Jsonable
      */
     public function hasValue($value)
     {
-        return
-            ! is_null($this->findValueByName($value)) ||
-            ! is_null($this->findValueById($value));
+        return ! is_null($this->findValueByName($value)) || ! is_null($this->findValueById($value));
     }
 
     /**
@@ -340,13 +334,12 @@ class Profile extends BaseModel implements Jsonable
         }
 
         // Specifically convert times to array.
-        $times = ! is_array($times) ? [$times] : $times;
+        $times = ! is_array($times) ? [ $times ] : $times;
 
         // Return Behavior at specific times
-        $behaviors = $this->behavior->reject(
-            function ($behavior) use ($times) {
-                return ! in_array($behavior->name, $times);
-            });
+        $behaviors = $this->behavior->reject(function ($behavior) use ($times) {
+            return ! in_array($behavior->name, $times);
+        });
 
         // Only one item.
         if ($behaviors->count() == 1) {
@@ -401,9 +394,7 @@ class Profile extends BaseModel implements Jsonable
      */
     public function hasConsumptionPreferenceCategory($preference)
     {
-        return
-            ! is_null($this->findConsumptionPreferenceCategoryName($preference)) ||
-            ! is_null($this->findConsumptionPreferenceCategoryById($preference));
+        return ! is_null($this->findConsumptionPreferenceCategoryName($preference)) || ! is_null($this->findConsumptionPreferenceCategoryById($preference));
     }
 
     /**

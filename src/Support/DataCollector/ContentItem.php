@@ -163,7 +163,7 @@ class ContentItem extends Collection
         parent::__construct($items);
 
         //If we do not have content then throw an Exception
-        if (! $this->has('content')) {
+        if ( ! $this->has('content')) {
             throw new MissingParameterContentItemException('Personality Insights requires a content', 422);
         }
     }

@@ -75,7 +75,7 @@ class InsightsServiceProvider extends ServiceProvider
         });
 
         // Bind AccessManager.
-        $this->app->bind('PIAccessManager', function ($app, $args) {
+        $this->app->bind(AccessManager::SERVICE_ID, function ($app, $args) {
             return new AccessManager($args['credentialsName'], $args['apiVersion']);
         });
 
@@ -85,7 +85,7 @@ class InsightsServiceProvider extends ServiceProvider
         });
 
         // Bind PersonalityInsights ContentListContainer in App.
-        $this->app->bind('PIContentListContainer', function ($app, $contentItems) {
+        $this->app->bind(ContentListContainer::SERVICE_ID, function ($app, $contentItems) {
             return (new ContentListContainer($contentItems))->cleanContainer();
         });
 

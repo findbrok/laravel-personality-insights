@@ -16,7 +16,7 @@ class PersonalityInsightsFacade extends Facade
      */
     public static function getFacadeAccessor()
     {
-        //Return the accessor as being the InsightsContract interface
+        // Return the accessor as being the InsightsContract interface.
         return InsightsContract::class;
     }
 }

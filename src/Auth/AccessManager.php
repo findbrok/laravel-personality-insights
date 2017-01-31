@@ -7,6 +7,11 @@ use FindBrok\PersonalityInsights\Exceptions\InvalidCredentialsName;
 class AccessManager
 {
     /**
+     * The Service ID in IOC.
+     */
+    const SERVICE_ID = 'PIAccessManager';
+
+    /**
      * The Credentials we are using.
      *
      * @var array
@@ -59,11 +64,11 @@ class AccessManager
         }
 
         // Credentials does not exist.
-        if (! config()->has('personality-insights.credentials.' . $name)) {
+        if ( ! config()->has('personality-insights.credentials.'.$name)) {
             throw new InvalidCredentialsName;
         }
 
-        $this->credentials = config('personality-insights.credentials.' . $name);
+        $this->credentials = config('personality-insights.credentials.'.$name);
 
         return $this;
     }
@@ -105,6 +110,6 @@ class AccessManager
      */
     public function getProfileResourcePath()
     {
-        return $this->getApiVersion() . '/profile';
+        return $this->getApiVersion().'/profile';
     }
 }
