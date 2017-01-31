@@ -102,7 +102,7 @@ class PersonalityInsights extends AbstractPersonalityInsights
     public function getFullProfile()
     {
         // Profile not already loaded.
-        if ( ! $this->hasProfilePreLoaded()) {
+        if (! $this->hasProfilePreLoaded()) {
             // Fetch Profile From Watson API.
             $this->profile = $this->getProfileFromWatson();
         }

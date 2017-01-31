@@ -64,7 +64,7 @@ class AccessManager
         }
 
         // Credentials does not exist.
-        if ( ! config()->has('personality-insights.credentials.'.$name)) {
+        if (! config()->has('personality-insights.credentials.'.$name)) {
             throw new InvalidCredentialsName;
         }
 

@@ -41,7 +41,7 @@ class InsightsServiceProvider extends ServiceProvider
     {
         // Publish config file
         $this->publishes([
-            __DIR__ . '/config/personality-insights.php' => config_path('personality-insights.php'),
+            __DIR__.'/config/personality-insights.php' => config_path('personality-insights.php'),
         ], 'config');
     }
 
@@ -53,7 +53,7 @@ class InsightsServiceProvider extends ServiceProvider
     public function register()
     {
         // Merge Config File
-        $this->mergeConfigFrom(__DIR__ . '/config/personality-insights.php', 'personality-insights');
+        $this->mergeConfigFrom(__DIR__.'/config/personality-insights.php', 'personality-insights');
 
         // Register Bindings
         $this->registerBindings();
