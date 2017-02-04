@@ -2,7 +2,6 @@
 
 namespace FindBrok\PersonalityInsights;
 
-use JsonMapper;
 use FindBrok\WatsonBridge\Bridge;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
@@ -21,7 +20,7 @@ class InsightsServiceProvider extends ServiceProvider
     public function boot()
     {
         // Publish config file.
-        $this->publishes([__DIR__.'/config/personality-insights.php' => config_path('personality-insights.php'),],
+        $this->publishes([__DIR__.'/config/personality-insights.php' => config_path('personality-insights.php')],
                          'config');
     }
 
