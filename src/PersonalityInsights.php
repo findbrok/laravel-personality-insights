@@ -12,6 +12,11 @@ class PersonalityInsights extends AbstractPersonalityInsights
     use ResultsProcessor;
 
     /**
+     * The Service Id of the class.
+     */
+    const SERVICE_ID = 'PersonalityInsights';
+
+    /**
      * Full profile.
      *
      * @var Profile

@@ -337,7 +337,7 @@ class Profile extends BaseModel implements Jsonable
         $times = ! is_array($times) ? [$times] : $times;
 
         // Return Behavior at specific times
-        $behaviors = $this->behavior->reject(function ($behavior) use ($times) {
+        $behaviors = $this->behavior->reject(function (BehaviorNode $behavior) use ($times) {
             return ! in_array($behavior->name, $times);
         });
 
