@@ -2,7 +2,6 @@
 
 namespace FindBrok\PersonalityInsights;
 
-use FindBrok\PersonalityInsights\Models\Profile;
 use FindBrok\PersonalityInsights\Auth\AccessManager;
 use FindBrok\PersonalityInsights\Support\DataCollector\ContentItem;
 use FindBrok\PersonalityInsights\Support\DataCollector\ContentListContainer;
@@ -57,7 +56,7 @@ abstract class AbstractPersonalityInsights implements InsightsContract
     public function newUpContainer($contentItems = [])
     {
         // New Up Container.
-        $this->contentListContainer = app(ContentListContainer::SERVICE_ID, $contentItems);
+        $this->contentListContainer = app(ContentListContainer::SERVICE_ID)->setContentsItems($contentItems);
     }
 
     /**
@@ -81,7 +80,7 @@ abstract class AbstractPersonalityInsights implements InsightsContract
     public function usingCredentials($name = null)
     {
         // Set credentials name.
-        $this->credentialsName = config('personality-insights.credentials.'.$name);
+        $this->getAccessManager()->setCredentialsName($name)->setCredentials($name);
 
         // Return this.
         return $this;
@@ -97,7 +96,7 @@ abstract class AbstractPersonalityInsights implements InsightsContract
     public function usingApiVersion($apiVersion = null)
     {
         // Set credentials name.
-        $this->apiVersion = $apiVersion;
+        $this->getAccessManager()->setApiVersion($apiVersion);
 
         // Return this.
         return $this;
@@ -110,7 +109,7 @@ abstract class AbstractPersonalityInsights implements InsightsContract
      */
     public function getCredentialsName()
     {
-        return $this->credentialsName ?: config('personality-insights.default_credentials');
+        return $this->getAccessManager()->getCredentialsName();
     }
 
     /**
@@ -120,7 +119,7 @@ abstract class AbstractPersonalityInsights implements InsightsContract
      */
     public function getApiVersion()
     {
-        return $this->apiVersion ?: config('personality-insights.api_version');
+        return $this->getAccessManager()->getApiVersion();
     }
 
     /**
@@ -132,7 +131,8 @@ abstract class AbstractPersonalityInsights implements InsightsContract
     {
         // Return headers.
         return collect($this->headers)
-            ->merge(['X-Watson-Learning-Opt-Out' => config('personality-insights.x_watson_learning_opt_out')])->all();
+            ->merge(['X-Watson-Learning-Opt-Out' => config('personality-insights.x_watson_learning_opt_out')])
+            ->all();
     }
 
     /**
@@ -167,14 +167,14 @@ abstract class AbstractPersonalityInsights implements InsightsContract
     protected function sendRequest()
     {
         // Get AccessManager.
-        $accessManager = $this->makeAccessManager();
+        $accessManager = $this->getAccessManager();
 
         // Make a Watson Bridge.
-        $watsonBridge = $this->makeBridge($accessManager);
+        $watsonBridge = $this->makeBridge();
 
         // Cross the Bridge and return the Response.
-        return $watsonBridge->post($accessManager->getProfileResourcePath().$this->getQuery(), $this->getContainer()
-                                                                                                    ->getContentsForRequest());
+        return $watsonBridge->post($accessManager->getProfileResourcePath().$this->getQuery(),
+                                   $this->getContainer()->getContentsForRequest());
     }
 
     /**
@@ -230,32 +230,24 @@ abstract class AbstractPersonalityInsights implements InsightsContract
     }
 
     /**
-     * Creates and returns a new instance of AccessManager.
+     * Returns the AccessManager.
      *
      * @return AccessManager
      */
-    public function makeAccessManager()
+    public function getAccessManager()
     {
-        return app(AccessManager::SERVICE_ID, [
-            'credentialsName' => $this->getCredentialsName(),
-            'apiVersion'      => $this->getApiVersion(),
-        ]);
+        return app(AccessManager::SERVICE_ID);
     }
 
     /**
      * Create a new WatsonBridge to handle Requests.
      *
-     * @param AccessManager|null $accessManager
-     *
      * @return \FindBrok\WatsonBridge\Bridge;
      */
-    public function makeBridge(AccessManager $accessManager = null)
+    public function makeBridge()
     {
-        // Make AccessManager if its not Present.
-        $accessManager = $accessManager ?: $this->makeAccessManager();
-
         // Create and Return Bridge.
-        return app('PIBridge', $accessManager->getCredentials())->appendHeaders($this->getHeaders());
+        return app('PIBridge')->appendHeaders($this->getHeaders());
     }
 
     /**
@@ -311,15 +303,5 @@ abstract class AbstractPersonalityInsights implements InsightsContract
     public function cacheLifetime()
     {
         return config('personality-insights.cache_expiration');
-    }
-
-    /**
-     * Checks if profile data is already loaded in profile prop.
-     *
-     * @return bool
-     */
-    public function hasProfilePreLoaded()
-    {
-        return property_exists($this, 'profile') && ! is_null($this->profile) && $this->profile instanceof Profile;
     }
 }

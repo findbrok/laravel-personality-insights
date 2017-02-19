@@ -19,6 +19,13 @@ class AccessManager
     protected $credentials = [];
 
     /**
+     * Credentials name to use.
+     *
+     * @var string
+     */
+    protected $credentialsName;
+
+    /**
      * The API Version we are using.
      *
      * @var string
@@ -33,8 +40,43 @@ class AccessManager
      */
     public function __construct($credentialsName = null, $apiVersion = null)
     {
+        $this->setCredentialsName($credentialsName);
         $this->setCredentials($credentialsName);
         $this->setApiVersion($apiVersion);
+    }
+
+    /**
+     * Sets the Credentials name.
+     *
+     * @param string $credentialsName
+     *
+     * @return $this
+     */
+    public function setCredentialsName($credentialsName = null)
+    {
+        // No credentials name.
+        if (is_null($credentialsName)) {
+            $credentialsName = config('personality-insights.default_credentials');
+        }
+
+        // Credentials does not exist.
+        if (! config()->has('personality-insights.credentials.'.$credentialsName)) {
+            throw new InvalidCredentialsName;
+        }
+
+        $this->credentialsName = $credentialsName;
+
+        return $this;
+    }
+
+    /**
+     * Gets the Credentials name to use.
+     *
+     * @return null|string
+     */
+    public function getCredentialsName()
+    {
+        return $this->credentialsName;
     }
 
     /**
@@ -111,5 +153,15 @@ class AccessManager
     public function getProfileResourcePath()
     {
         return $this->getApiVersion().'/profile';
+    }
+
+    /**
+     * Gets the Default Credentials.
+     *
+     * @return array
+     */
+    public function getDefaultCredentials()
+    {
+        return config('personality-insights.credentials.'.config('personality-insights.default_credentials'));
     }
 }

@@ -138,4 +138,14 @@ class PersonalityInsights extends AbstractPersonalityInsights
         // Return calling object.
         return $this;
     }
+
+    /**
+     * Checks if profile data is already loaded in profile prop.
+     *
+     * @return bool
+     */
+    public function hasProfilePreLoaded()
+    {
+        return property_exists($this, 'profile') && ! is_null($this->profile) && $this->profile instanceof Profile;
+    }
 }

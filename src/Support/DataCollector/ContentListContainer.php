@@ -21,6 +21,20 @@ class ContentListContainer extends Collection
     }
 
     /**
+     * Sets Contents to the Container.
+     *
+     * @param array $items
+     *
+     * @return $this
+     */
+    public function setContentsItems($items = [])
+    {
+        $this->items = $this->getArrayableItems($items);
+
+        return $this;
+    }
+
+    /**
      * Remove all invalid contents in the ContentListContainer.
      *
      * @return $this
@@ -44,8 +58,8 @@ class ContentListContainer extends Collection
     public function getCacheKey()
     {
         // Return Key.
-        return 'PersonalityInsights-'.Uuid::uuid5(Uuid::NAMESPACE_DNS, collect(['contentItems' => $this->toArray()])->toJson())
-                                          ->toString();
+        return 'PersonalityInsights-'.Uuid::uuid5(Uuid::NAMESPACE_DNS,
+                                                  collect(['contentItems' => $this->toArray()])->toJson())->toString();
     }
 
     /**

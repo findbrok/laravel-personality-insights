@@ -5,6 +5,8 @@ namespace FindBrok\PersonalityInsights;
 use FindBrok\WatsonBridge\Bridge;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Config\Repository;
+use Illuminate\Contracts\Foundation\Application;
 use FindBrok\PersonalityInsights\Auth\AccessManager;
 use FindBrok\PersonalityInsights\Facades\PersonalityInsightsFacade;
 use FindBrok\PersonalityInsights\Support\DataCollector\ContentListContainer;
@@ -46,7 +48,7 @@ class InsightsServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function registerBindings()
+    protected function registerBindings()
     {
         // Bind Personality Insights interface.
         $this->app->bind(InsightsContract::class, PersonalityInsights::class);
@@ -54,20 +56,50 @@ class InsightsServiceProvider extends ServiceProvider
         // Bind Personality Insights Service.
         $this->app->bind(PersonalityInsights::SERVICE_ID, PersonalityInsights::class);
 
-        // Bind AccessManager.
-        $this->app->bind(AccessManager::SERVICE_ID,
-            function ($app, $args = ['credentialsName' => 'default', 'apiVersion' => 'v3']) {
-                return new AccessManager($args['credentialsName'], $args['apiVersion']);
-            });
+        // Registers the Access Manager.
+        $this->registerAccessManager();
 
-        // Bind WatsonBridge for Personality insights that we depend on.
-        $this->app->bind('PIBridge', function ($app, $args = ['username' => '', 'password' => '', 'url' => '']) {
-            return new Bridge($args['username'], $args['password'], $args['url']);
-        });
+        // Registers the Bridge.
+        $this->registerBridge();
 
         // Bind PersonalityInsights ContentListContainer in App.
-        $this->app->bind(ContentListContainer::SERVICE_ID, function ($app, $contentItems = []) {
-            return (new ContentListContainer($contentItems))->cleanContainer();
+        $this->app->bind(ContentListContainer::SERVICE_ID, function () {
+            return (new ContentListContainer)->cleanContainer();
+        });
+    }
+
+    /**
+     * Registers the Access Manager in
+     * the Container.
+     *
+     * @return void
+     */
+    protected function registerAccessManager()
+    {
+        // Bind AccessManager.
+        $this->app->singleton(AccessManager::SERVICE_ID, function (Application $app) {
+            /** @var Repository $configRepo */
+            $configRepo = $app->make('config');
+
+            return new AccessManager($configRepo->get('personality-insights.default_credentials'),
+                                     $configRepo->get('personality-insights.api_version'));
+        });
+    }
+
+    /**
+     * Registers the Bridge.
+     *
+     * @return void
+     */
+    protected function registerBridge()
+    {
+        // Bind WatsonBridge for Personality insights that we depend on.
+        $this->app->bind('PIBridge', function (Application $app) {
+            // Get Default Credentials.
+            $credentials = $app->make(AccessManager::SERVICE_ID)->getCredentials();
+
+            // Return an Instance of Bridge.
+            return new Bridge($credentials['username'], $credentials['password'], $credentials['url']);
         });
     }
 
@@ -76,7 +108,7 @@ class InsightsServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function registerFacades()
+    protected function registerFacades()
     {
         // Since Laravel 5.4 allows for automatic Facade
         // we do not need to register Facades here.
