@@ -152,7 +152,7 @@ abstract class AbstractPersonalityInsights implements InsightsContract
 
         // We have something in the result.
         if (! empty($finalQueryString)) {
-            rtrim($finalQueryString, '&');
+            $finalQueryString = rtrim($finalQueryString, '&');
         }
 
         // We return our results.
