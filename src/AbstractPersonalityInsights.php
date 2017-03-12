@@ -173,7 +173,7 @@ abstract class AbstractPersonalityInsights implements InsightsContract
         $watsonBridge = $this->makeBridge();
 
         // Cross the Bridge and return the Response.
-        return $watsonBridge->post($accessManager->getProfileResourcePath().$this->getQuery(),
+        return $watsonBridge->post($accessManager->getProfileResourcePath().'?'.$this->getQuery(),
                                    $this->getContainer()->getContentsForRequest());
     }
 
