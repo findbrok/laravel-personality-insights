@@ -42,7 +42,7 @@ abstract class BaseModel implements JsonSerializable
      */
     public function traverseNodesAndFindBy($propName, $propValue, Collection $nodes = null)
     {
-        // Nodes are null so nothing to Travers.
+        // Nodes are null so nothing to Traverse.
         if (is_null($nodes)) {
             return null;
         }
@@ -53,9 +53,16 @@ abstract class BaseModel implements JsonSerializable
             }
 
             if ($node->hasChildren()) {
-                return $this->traverseNodesAndFindBy($propName, $propValue, $node->getChildren());
+                $node = $this->traverseNodesAndFindBy($propName, $propValue, $node->getChildren());
+
+                if (! is_null($node) && $node instanceof BaseModel) {
+                    return $node;
+                }
             }
         }
+
+        // Nothing Found.
+        return null;
     }
 
     /**
