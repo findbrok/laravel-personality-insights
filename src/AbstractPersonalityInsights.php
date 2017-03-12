@@ -35,9 +35,7 @@ abstract class AbstractPersonalityInsights implements InsightsContract
      *
      * @var array
      */
-    protected $headers = [
-        'Accept' => 'application/json',
-    ];
+    protected $headers = ['Accept' => 'application/json',];
 
     /**
      * Request Query.
@@ -172,9 +170,16 @@ abstract class AbstractPersonalityInsights implements InsightsContract
         // Make a Watson Bridge.
         $watsonBridge = $this->makeBridge();
 
+        // Get Url We post to Watson to Get Profile.
+        $postUrl = $accessManager->getProfileResourcePath();
+
+        // Append query string if needed
+        if (! empty($this->getQuery())) {
+            $postUrl .= '?'.$this->getQuery();
+        }
+
         // Cross the Bridge and return the Response.
-        return $watsonBridge->post($accessManager->getProfileResourcePath().'?'.$this->getQuery(),
-                                   $this->getContainer()->getContentsForRequest());
+        return $watsonBridge->post($postUrl, $this->getContainer()->getContentsForRequest());
     }
 
     /**
