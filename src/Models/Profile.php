@@ -175,7 +175,7 @@ class Profile extends BaseModel implements Jsonable
         return json_encode($this->jsonSerialize(), $options);
     }
 
-    /**get_object_vars ( object $object )
+    /**
      * Get a Facet using Id.
      *
      * @param string $id
@@ -186,7 +186,7 @@ class Profile extends BaseModel implements Jsonable
     {
         // No personality defined yet.
         if (is_null($this->personality)) {
-            return;
+            return null;
         }
 
         // Traverse and Return.
@@ -204,7 +204,7 @@ class Profile extends BaseModel implements Jsonable
     {
         // No personality defined yet.
         if (is_null($this->personality)) {
-            return;
+            return null;
         }
 
         // Traverse and Return.
@@ -234,7 +234,7 @@ class Profile extends BaseModel implements Jsonable
     {
         // No needs defined yet.
         if (is_null($this->needs)) {
-            return;
+            return null;
         }
 
         // Traverse and Return.
@@ -252,7 +252,7 @@ class Profile extends BaseModel implements Jsonable
     {
         // No needs defined yet.
         if (is_null($this->needs)) {
-            return;
+            return null;
         }
 
         // Traverse and Return.
@@ -282,7 +282,7 @@ class Profile extends BaseModel implements Jsonable
     {
         // No values defined yet.
         if (is_null($this->values)) {
-            return;
+            return null;
         }
 
         // Traverse and Return.
@@ -300,7 +300,7 @@ class Profile extends BaseModel implements Jsonable
     {
         // No values defined yet.
         if (is_null($this->values)) {
-            return;
+            return null;
         }
 
         // Traverse and Return.
@@ -330,7 +330,7 @@ class Profile extends BaseModel implements Jsonable
     {
         // No behaviors set yet.
         if (is_null($this->behavior)) {
-            return;
+            return null;
         }
 
         // Specifically convert times to array.
@@ -360,7 +360,7 @@ class Profile extends BaseModel implements Jsonable
     {
         // No Preferences defined yet.
         if (is_null($this->consumption_preferences)) {
-            return;
+            return null;
         }
 
         // Traverse and Return.
@@ -378,7 +378,7 @@ class Profile extends BaseModel implements Jsonable
     {
         // No Preferences defined yet.
         if (is_null($this->consumption_preferences)) {
-            return;
+            return null;
         }
 
         // Traverse and Return.
@@ -408,7 +408,7 @@ class Profile extends BaseModel implements Jsonable
     {
         // No Preferences defined yet.
         if (is_null($this->consumption_preferences)) {
-            return;
+            return null;
         }
 
         // Traverse and Return.

@@ -198,14 +198,35 @@ class TestInsights extends TestCase
      */
     public function testGetIntellectInsightsWithExpectedPercentage()
     {
-        // Get Intellect
-        $intellect = $this->app->make(PersonalityInsights::SERVICE_ID)
-                               ->addContentItems($this->contentItems)
-                               ->getFullProfile()
-                               ->findFacetByName('Intellect');
+        // Get Profile
+        /** @var \FindBrok\PersonalityInsights\Models\Profile $profile */
+        $profile = $this->app->make(PersonalityInsights::SERVICE_ID)
+                             ->addContentItems($this->contentItems)
+                             ->getFullProfile();
+
+        $intellect = $profile->findFacetByName('Intellect');
 
         // We see the expected percentage
         $this->assertEquals(87.2, $intellect->calculatePercentage());
+    }
+
+    /**
+     * Test that we get the expected percentage for Vulnerability.
+     *
+     * @return void
+     */
+    public function testGetVulnerabilityInsightsWithExpectedPercentage()
+    {
+        // Get Profile
+        /** @var \FindBrok\PersonalityInsights\Models\Profile $profile */
+        $profile = $this->app->make(PersonalityInsights::SERVICE_ID)
+                             ->addContentItems($this->contentItems)
+                             ->getFullProfile();
+
+        $vulnerability = $profile->findFacetByName('Susceptible to stress');
+
+        // We see the expected percentage
+        $this->assertEquals(39.0, $vulnerability->calculatePercentage());
     }
 
     /**
