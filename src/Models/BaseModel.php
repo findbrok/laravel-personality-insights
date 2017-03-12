@@ -55,7 +55,7 @@ abstract class BaseModel implements JsonSerializable
             if ($node->hasChildren()) {
                 $node = $this->traverseNodesAndFindBy($propName, $propValue, $node->getChildren());
 
-                if (! is_null($node) && $node instanceof BaseModel) {
+                if (! is_null($node) && $node instanceof self) {
                     return $node;
                 }
             }
