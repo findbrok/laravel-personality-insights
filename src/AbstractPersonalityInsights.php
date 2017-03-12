@@ -35,7 +35,7 @@ abstract class AbstractPersonalityInsights implements InsightsContract
      *
      * @var array
      */
-    protected $headers = ['Accept' => 'application/json',];
+    protected $headers = ['Accept' => 'application/json'];
 
     /**
      * Request Query.
