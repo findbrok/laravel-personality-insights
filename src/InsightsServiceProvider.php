@@ -22,8 +22,9 @@ class InsightsServiceProvider extends ServiceProvider
     public function boot()
     {
         // Publish config file.
-        $this->publishes([__DIR__.'/config/personality-insights.php' => config_path('personality-insights.php')],
-                         'config');
+        $this->publishes([
+            __DIR__.'/../config/personality-insights.php' => config_path('personality-insights.php'),
+        ], 'config');
     }
 
     /**
@@ -34,7 +35,7 @@ class InsightsServiceProvider extends ServiceProvider
     public function register()
     {
         // Merge Config File.
-        $this->mergeConfigFrom(__DIR__.'/config/personality-insights.php', 'personality-insights');
+        $this->mergeConfigFrom(__DIR__.'/../config/personality-insights.php', 'personality-insights');
 
         // Register Bindings.
         $this->registerBindings();
@@ -81,8 +82,10 @@ class InsightsServiceProvider extends ServiceProvider
             /** @var Repository $configRepo */
             $configRepo = $app->make('config');
 
-            return new AccessManager($configRepo->get('personality-insights.default_credentials'),
-                                     $configRepo->get('personality-insights.api_version'));
+            return new AccessManager(
+                $configRepo->get('personality-insights.default_credentials'),
+                $configRepo->get('personality-insights.api_version')
+            );
         });
     }
 
