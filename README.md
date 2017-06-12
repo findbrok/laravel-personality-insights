@@ -42,6 +42,9 @@ Install the package through composer:
 ```bash
 $ composer require findbrok/laravel-personality-insights
 ```
+> If you are using Laravel >= 5.5, you can skip service registration 
+> and aliases registration thanks to Laravel auto package discovery 
+> feature.
 
 Add the Service Provider to your providers array in ```config/app.php```, 
 see [Registering Providers](https://laravel.com/docs/master/providers#registering-providers)
