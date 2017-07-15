@@ -12,7 +12,7 @@ if (! function_exists('personality_insights_content_item')) {
      */
     function personality_insights_content_item($item = [])
     {
-        //Return new content item
+        // Return new content item.
         return new DataCollector\ContentItem($item);
     }
 }

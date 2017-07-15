@@ -117,7 +117,8 @@ abstract class AbstractPersonalityInsights implements InsightsContract
      */
     public function getApiVersion()
     {
-        return $this->getAccessManager()->getApiVersion();
+        return $this->getAccessManager()
+                    ->getApiVersion();
     }
 
     /**
@@ -128,9 +129,9 @@ abstract class AbstractPersonalityInsights implements InsightsContract
     protected function getHeaders()
     {
         // Return headers.
-        return collect($this->headers)
-            ->merge(['X-Watson-Learning-Opt-Out' => config('personality-insights.x_watson_learning_opt_out')])
-            ->all();
+        return collect($this->headers)->merge([
+            'X-Watson-Learning-Opt-Out' => config('personality-insights.x_watson_learning_opt_out'),
+        ])->all();
     }
 
     /**
@@ -264,10 +265,10 @@ abstract class AbstractPersonalityInsights implements InsightsContract
      */
     public function addSingleContentItem($items = [])
     {
-        //Push ContentItem in ContentListContainer
+        // Push ContentItem in ContentListContainer.
         $this->contentListContainer->push($items instanceof ContentItem ? $items : personality_insights_content_item($items));
 
-        //Return object
+        // Return object.
         return $this;
     }
 
@@ -280,13 +281,13 @@ abstract class AbstractPersonalityInsights implements InsightsContract
      */
     public function addContentItems($items = [])
     {
-        //Loop on each item
+        // Loop on each item.
         collect($items)->each(function ($item) {
-            //Add each content to the Container
+            // Add each content to the Container.
             $this->addSingleContentItem($item);
         });
 
-        //Return object
+        // Return object.
         return $this;
     }
 

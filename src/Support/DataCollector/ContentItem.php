@@ -38,28 +38,6 @@ class ContentItem extends Collection
 
         /*
         |--------------------------------------------------------------------------
-        | userid [string] | (Optional)
-        |--------------------------------------------------------------------------
-        |
-        | A unique identifier for the author of this content
-        |
-        */
-
-        'userid' => '',
-
-        /*
-        |--------------------------------------------------------------------------
-        | sourceid [string] | (Optional)
-        |--------------------------------------------------------------------------
-        |
-        | An identifier for the source of this content; for example, blog123 or twitter
-        |
-        */
-
-        'sourceid' => '',
-
-        /*
-        |--------------------------------------------------------------------------
         | created [integer] | (Optional)
         |--------------------------------------------------------------------------
         |
@@ -152,17 +130,25 @@ class ContentItem extends Collection
     /**
      * Create a new ContentItem.
      *
-     *
      * @param array $items
-     *
-     * @throws MissingParameterContentItemException
      */
     public function __construct($items = [])
     {
-        //New Up parent
+        // New Up parent.
         parent::__construct($items);
 
-        //If we do not have content then throw an Exception
+        // Validates the ContentItem.
+        $this->validates();
+    }
+
+    /**
+     * Validates the ContentItem.
+     *
+     * @throws MissingParameterContentItemException
+     */
+    protected function validates()
+    {
+        // If we do not have content then throw an Exception.
         if (! $this->has('content')) {
             throw new MissingParameterContentItemException('Personality Insights requires a content', 422);
         }
