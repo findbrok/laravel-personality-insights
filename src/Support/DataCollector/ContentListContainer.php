@@ -13,7 +13,9 @@ class ContentListContainer extends Collection
     const SERVICE_ID = 'PIContentListContainer';
 
     /**
-     * {@inheritdoc}
+     * ContentListContainer constructor.
+     *
+     * @param array $items
      */
     public function __construct($items = [])
     {

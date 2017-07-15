@@ -7,7 +7,7 @@ class Warning
     /**
      * The identifier of the warning message, one of WORD_COUNT_MESSAGE, JSON_AS_TEXT, or PARTIAL_TEXT_USED.
      *
-     * @var
+     * @var string
      */
     public $warning_id;
 

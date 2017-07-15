@@ -46,19 +46,19 @@ class TestInsights extends TestCase
     public function setUp()
     {
         parent::setUp();
-        // Mock Watson Bridge
+        // Mock Watson Bridge.
         $this->bridge = $this->getMockBuilder('FindBrok\WatsonBridge\Bridge')
                              ->disableOriginalConstructor()
                              ->setMethods(['post'])
                              ->getMock();
-        // Mock Contents
+        // Mock Contents.
         $this->contentItems = json_decode(file_get_contents(__DIR__.'/Mocks/content-items.json'), true)['contentItems'];
-        // Mock Response Body
+        // Mock Response Body.
         $this->jsonResponse = file_get_contents(__DIR__.'/Mocks/profile-response.json');
 
-        // Set return value of post method
+        // Set return value of post method.
         $this->bridge->method('post')->withAnyParameters()->willReturn(new Response(200, [], $this->jsonResponse));
-        // Override Bridge in IOC
+        // Override Bridge in IOC.
         $this->app->instance('PIBridge', $this->bridge);
     }
 
@@ -76,7 +76,7 @@ class TestInsights extends TestCase
         // Get Profile.
         $profile = $insights->getFullProfile();
 
-        // We have intellect so its true
+        // We have intellect so its true.
         $this->assertTrue($profile->hasFacet('Intellect'));
         $this->assertTrue($profile->hasFacet('facet_intellect'));
     }
@@ -95,7 +95,7 @@ class TestInsights extends TestCase
         // Get Profile.
         $profile = $insights->getFullProfile();
 
-        // We have Curiosity so its true
+        // We have Curiosity so its true.
         $this->assertTrue($profile->hasNeed('Curiosity'));
         $this->assertTrue($profile->hasNeed('need_curiosity'));
     }
@@ -107,7 +107,7 @@ class TestInsights extends TestCase
      */
     public function testCheckIfConservationValueExistsWithTrueAsAnswer()
     {
-        // Get Insights
+        // Get Insights.
         /** @var PersonalityInsights $insights */
         $insights = $this->app->make(PersonalityInsights::SERVICE_ID)->addContentItems($this->contentItems);
 
@@ -126,7 +126,7 @@ class TestInsights extends TestCase
      */
     public function testBehaviorFunctionsOfTheProfile()
     {
-        // Get Insights
+        // Get Insights.
         /** @var PersonalityInsights $insights */
         $insights = $this->app->make(PersonalityInsights::SERVICE_ID)->addContentItems($this->contentItems);
 
@@ -144,7 +144,7 @@ class TestInsights extends TestCase
      */
     public function testConsumptionPreferencesMethodsOnProfile()
     {
-        // Get Insights
+        // Get Insights.
         /** @var PersonalityInsights $insights */
         $insights = $this->app->make(PersonalityInsights::SERVICE_ID)->addContentItems($this->contentItems);
 
@@ -167,11 +167,11 @@ class TestInsights extends TestCase
      */
     public function testConfirmThatAnalysisIsVeryStrong()
     {
-        // Get Insights
+        // Get Insights.
         /** @var PersonalityInsights $insights */
         $insights = $this->app->make(PersonalityInsights::SERVICE_ID)->addContentItems($this->contentItems);
 
-        // Analysis is strong
+        // Analysis is strong.
         $this->assertTrue($insights->isAnalysisStrong());
     }
 
@@ -182,13 +182,13 @@ class TestInsights extends TestCase
      */
     public function testGetFullProfileWithExpectedProfile()
     {
-        // Get Full Profile
+        // Get Full Profile.
         $profile = $this->app->make(PersonalityInsights::SERVICE_ID)
                              ->addContentItems($this->contentItems)
                              ->getFullProfile();
-        // See Full Profile
+        // See Full Profile.
         $this->assertEquals((new JsonMapper)->map(json_decode($this->jsonResponse),
-                                                  new \FindBrok\PersonalityInsights\Models\Profile()), $profile);
+            new \FindBrok\PersonalityInsights\Models\Profile()), $profile);
     }
 
     /**
@@ -198,7 +198,7 @@ class TestInsights extends TestCase
      */
     public function testGetIntellectInsightsWithExpectedPercentage()
     {
-        // Get Profile
+        // Get Profile.
         /** @var \FindBrok\PersonalityInsights\Models\Profile $profile */
         $profile = $this->app->make(PersonalityInsights::SERVICE_ID)
                              ->addContentItems($this->contentItems)
@@ -206,7 +206,7 @@ class TestInsights extends TestCase
 
         $intellect = $profile->findFacetByName('Intellect');
 
-        // We see the expected percentage
+        // We see the expected percentage.
         $this->assertEquals(87.2, $intellect->calculatePercentage());
     }
 
@@ -217,7 +217,7 @@ class TestInsights extends TestCase
      */
     public function testGetVulnerabilityInsightsWithExpectedPercentage()
     {
-        // Get Profile
+        // Get Profile.
         /** @var \FindBrok\PersonalityInsights\Models\Profile $profile */
         $profile = $this->app->make(PersonalityInsights::SERVICE_ID)
                              ->addContentItems($this->contentItems)
@@ -225,7 +225,7 @@ class TestInsights extends TestCase
 
         $vulnerability = $profile->findFacetByName('Susceptible to stress');
 
-        // We see the expected percentage
+        // We see the expected percentage.
         $this->assertEquals(39.0, $vulnerability->calculatePercentage());
     }
 
@@ -238,8 +238,43 @@ class TestInsights extends TestCase
      */
     public function testNoContentPassedToContentItemObjectMissingParameterExceptionThrown()
     {
-        // Add content and exception is thrown here
+        // Add content and exception is thrown here.
         $this->app->make(PersonalityInsights::SERVICE_ID)->addContentItems(['id' => 'foo', 'source' => 'bar']);
+    }
+
+    /**
+     * Test that the single addSingleContentItem works as expected.
+     *
+     * @return void
+     */
+    public function testAddSingleContentItem()
+    {
+        $singleContentItem = [
+            'content'     => 'Some content',
+            'contenttype' => 'text/plain',
+            'created'     => 1447639154000,
+            'id'          => '666073008692314113',
+            'language'    => 'en',
+        ];
+
+        // Create the PI service.
+        /** @var PersonalityInsights $personalityInsights */
+        $personalityInsights = $this->app->make(PersonalityInsights::SERVICE_ID);
+
+        // Add single contentItem.
+        $personalityInsights->addSingleContentItem($singleContentItem);
+
+        $this->assertEquals([
+            'contentItems' => [
+                [
+                    'content'     => 'Some content',
+                    'contenttype' => 'text/plain',
+                    'created'     => 1447639154000,
+                    'id'          => '666073008692314113',
+                    'language'    => 'en',
+                ],
+            ],
+        ], $personalityInsights->getContainer()->getContentsForRequest());
     }
 
     /**
@@ -266,7 +301,9 @@ class TestInsights extends TestCase
         $profile = $insights->getFullProfile();
 
         // See Full Profile
-        $this->assertEquals((new JsonMapper)->map(json_decode($this->jsonResponse),
-                                                  new \FindBrok\PersonalityInsights\Models\Profile()), $profile);
+        $this->assertEquals(
+            (new JsonMapper)->map(json_decode($this->jsonResponse), new \FindBrok\PersonalityInsights\Models\Profile()),
+            $profile
+        );
     }
 }
