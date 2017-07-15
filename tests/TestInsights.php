@@ -250,11 +250,11 @@ class TestInsights extends TestCase
     public function testAddSingleContentItem()
     {
         $singleContentItem = [
-            "content"     => "Some content",
-            "contenttype" => "text/plain",
-            "created"     => 1447639154000,
-            "id"          => "666073008692314113",
-            "language"    => "en",
+            'content'     => 'Some content',
+            'contenttype' => 'text/plain',
+            'created'     => 1447639154000,
+            'id'          => '666073008692314113',
+            'language'    => 'en',
         ];
 
         // Create the PI service.
@@ -267,11 +267,11 @@ class TestInsights extends TestCase
         $this->assertEquals([
             'contentItems' => [
                 [
-                    "content"     => "Some content",
-                    "contenttype" => "text/plain",
-                    "created"     => 1447639154000,
-                    "id"          => "666073008692314113",
-                    "language"    => "en",
+                    'content'     => 'Some content',
+                    'contenttype' => 'text/plain',
+                    'created'     => 1447639154000,
+                    'id'          => '666073008692314113',
+                    'language'    => 'en',
                 ],
             ],
         ], $personalityInsights->getContainer()->getContentsForRequest());
